@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 
+import { OPEN_AI_API_KEY } from '../api-keys';
+
 import './index.css'
 
 // @ts-ignore
 const { appWindow, currentMonitor, LogicalSize, LogicalPosition } = window.__TAURI__.window;
 
-
-
-
-const openAIApiKey = "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";
 const openAIApiUrl = "https://api.openai.com/v1/chat/completions";
 
 type MessageInfo = {
@@ -64,7 +62,7 @@ const App = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${openAIApiKey}`,
+          "Authorization": `Bearer ${OPEN_AI_API_KEY}`,
 
         },
         body: JSON.stringify({
