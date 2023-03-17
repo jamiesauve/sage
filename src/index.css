@@ -5,7 +5,6 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -27,7 +26,6 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
   min-height: 100vh;
 }
 
@@ -78,14 +76,18 @@ body {
 
 .from-user {
   align-self: flex-end;
-  background-color: rgba(0, 255, 255, 0.6);
-
+  background-color: rgba(0, 205, 205, 0.8);
+  font-weight: 500;
+  text-shadow: 0 0 10px rgb(0, 50, 50, 1);
+  
   margin-left: 20px;
 }
 
 .from-api {
   align-self: flex-start;
-  background-color: rgba(0, 200, 255, 0.6);
+  background-color: rgba(0, 150, 2505, 0.8);
+  text-shadow: 0 0 10px rgb(0, 50, 50, 1);
+  font-weight: 500;
 
   margin-right: 20px;
 }
@@ -106,6 +108,7 @@ body {
   
   display: flex;
 
+  box-sizing: border-box;
   height: 52px;
   
   padding: 5px 20px;
@@ -113,6 +116,7 @@ body {
 
 .input {
   padding: 0 20px;
+  min-width: 100px;
   margin-right: 5px;
   border: none;
   border-radius: 10px;
@@ -165,8 +169,8 @@ button:focus-visible {
 .lds-ripple {
   display: inline-block;
   position: absolute;
-  bottom: -28px;
-  right: 90px;
+  bottom: -4px;
+  right: 86px;
 
   z-index: 10;
   
@@ -212,4 +216,32 @@ button:focus-visible {
     height: 36px;
     opacity: 0;
   }
+}
+
+.options-area {
+  display: flex;
+  justify-content: center;
+
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2px 20px;
+}
+
+.options-area button {
+  font-size: 14px;
+  padding: 2px 10px;
+
+  background-color: rgba(200, 255, 255, 0.3)
+}
+
+.decorative-image > svg {
+  position: absolute;
+  opacity: 0.5;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  right: -72px;
+  z-index: -1;
+  height: 300px;
+  width: 300px;
+  transform: scaleX(-1) rotate(90deg);
 }

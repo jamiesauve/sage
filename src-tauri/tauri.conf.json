@@ -4,14 +4,22 @@
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "npm run dev",
     "devPath": "http://localhost:5173",
-    "distDir": "../build"
+    "distDir": "../build",
+    "withGlobalTauri": true
   },
   "package": {
-    "productName": "helper",
+    "productName": "ChatGPT Assistant",
     "version": "0.1.0"
   },
   "tauri": {
     "allowlist": {
+      "window": {
+        "setAlwaysOnTop": true,
+        "setSize": true,
+        "setPosition": true,
+        "minimize": true,
+        "unminimize": true
+      },
       "all": false
     },
     "bundle": {
@@ -47,6 +55,7 @@
         "timestampUrl": ""
       }
     },
+    "macOSPrivateApi": true,
     "security": {
       "csp": null
     },
@@ -55,11 +64,13 @@
     },
     "windows": [
       {
+        "alwaysOnTop": true,
         "fullscreen": false,
-        "height": 600,
+        "height": 800,
         "resizable": true,
-        "title": "helper",
-        "width": 800
+        "title": "ChaptGPT Assistant",
+        "transparent": true,
+        "width": 300
       }
     ]
   }
