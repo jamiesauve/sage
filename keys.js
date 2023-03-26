@@ -1,1 +1,0 @@
-export const OPEN_AI_API_KEY = "YOUR_API_KEY_HERE";
