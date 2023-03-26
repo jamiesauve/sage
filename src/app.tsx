@@ -10,6 +10,7 @@ import { OptionsArea } from './components/options-area';
 import type { MessageInfo } from './types/message-info';
 
 import './app.css'
+import { snapToSidePosition } from './helpers/snap-to-side-position';
 
 export const App = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -18,6 +19,10 @@ export const App = () => {
   const [mostRecentResponse, setMostRecentResponse] = useState<MessageInfo | null>(null);
 
   const feedContainerElementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    snapToSidePosition();
+  }, [])
 
   useEffect(() => {
     if (feedContainerElementRef?.current) {
@@ -105,7 +110,7 @@ export const App = () => {
       />
 
       <OptionsArea
-        mostRecentMessage={pastMessages?.[pastMessages.length - 1]?.message ?? ""}
+        mostRecentMessage={mostRecentResponse?.message ?? ""}
         setPastMessages={setPastMessages}
       />
 
