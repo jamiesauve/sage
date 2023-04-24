@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { speakText } from './integrations/text-to-speech'
 import { askChatGpt } from './integrations/chat-gpt';
 import { formatResponse } from './helpers/format-response';
 import { DecorativeImageSvg } from './components/decorative-image-svg';
@@ -10,19 +9,13 @@ import { OptionsArea } from './components/options-area';
 import type { MessageInfo } from './types/message-info';
 
 import './app.css'
-import { snapToSidePosition } from './helpers/snap-to-side-position';
 
 export const App = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [queryContent, setQueryContent] = useState<string>("");
+  const [lastUserMessage, setLastUserMessage] = useState<MessageInfo>();
   const [pastMessages, setPastMessages] = useState<MessageInfo[]>([]);
-  const [mostRecentResponse, setMostRecentResponse] = useState<MessageInfo | null>(null);
 
   const feedContainerElementRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    snapToSidePosition();
-  }, [])
 
   useEffect(() => {
     if (feedContainerElementRef?.current) {
@@ -33,40 +26,18 @@ export const App = () => {
     feedContainerElementRef.current
   ])
 
-  const minimizeListener = (e: KeyboardEvent) => {
-    if (e.key === "ArrowDown" && e.shiftKey === true) {
-      minimizeWindow();
-    }
-  }
-
-  const submitOnEnterListener = (e: KeyboardEvent) => {
-    if (e.key === "Enter" && e.shiftKey === false) {
-      handleSubmit()
-    }
-  }
-
-  // set up event listeners
-  useEffect(() => {
-    window.addEventListener("keyup", minimizeListener)
-    window.addEventListener("keyup", submitOnEnterListener)
-
-    return () => {
-      window.removeEventListener("keyup", minimizeListener)
-      window.removeEventListener("keyup", submitOnEnterListener)
-    }
-  }, [ submitOnEnterListener ])
-
-
   const addPastMessage = (messageInfo: MessageInfo) => {
     setPastMessages((pastMessages) => [
       ...pastMessages,
       messageInfo
     ]);
-
-    setMostRecentResponse(messageInfo)
   }
 
-  const handleUserQuery = async () => {
+  const handleUserQuery = async (queryContent?: string) => {
+    if (!queryContent) return;
+
+    setLastUserMessage({ message: queryContent, messageJSX: [<p className="text">{queryContent}</p>], fromUser: true });
+
     setIsFetching(true);
     const response = await askChatGpt(queryContent);
     setIsFetching(false);
@@ -77,12 +48,16 @@ export const App = () => {
     speakText(response);
   }
 
-  const handleSubmit = () => {
-    if(queryContent) {
-      handleUserQuery();
+  const handleSubmit = (content: string) => {
+    if(content) {
       addPastMessage({ message: content, messageJSX: [<p className="text">{content}</p>], fromUser: true })
-      setQueryContent("")
+
+        handleUserQuery(content);
     }
+  }
+
+  const regenerateReply = () => {
+    handleUserQuery(lastUserMessage?.message);
   }
 
   return (
@@ -110,12 +85,10 @@ export const App = () => {
       <InputArea
         handleSubmit={handleSubmit}
         isFetching={isFetching}
-        queryContent={queryContent}
-        setQueryContent={setQueryContent}
       />
 
       <OptionsArea
-        mostRecentMessage={mostRecentResponse?.message ?? ""}
+        regenerateReply={regenerateReply}
         setPastMessages={setPastMessages}
       />
 

@@ -1,17 +1,15 @@
 import { snapToSidePosition } from "../helpers/snap-to-side-position";
-import { minimizeWindow } from "../helpers/minimize-window";
 
 import type { MessageInfo } from '../types/message-info';
-import { speakText } from "../integrations/text-to-speech";
 
 interface OptionsAreaProps {
-  mostRecentMessage: string;
+  regenerateReply: () => void;
   setPastMessages: (messages: MessageInfo[]) => void;
 }
 
 export const OptionsArea = (props: OptionsAreaProps) => {
-  const { 
-    mostRecentMessage, 
+  const {
+    regenerateReply, 
     setPastMessages
   } = props;
 
@@ -24,14 +22,6 @@ export const OptionsArea = (props: OptionsAreaProps) => {
         >
           Dock
         </button>
-
-        <button
-          onClick={() => {
-            minimizeWindow();
-          }}
-        >
-          Hide
-        </button>
         
         <button
           onClick={() => setPastMessages([])}
@@ -40,9 +30,9 @@ export const OptionsArea = (props: OptionsAreaProps) => {
         </button>
 
         <button
-          onClick={() => speakText(mostRecentMessage)}
+          onClick={regenerateReply}
         >
-          Repeat Reply
+          Repeat Question
         </button>
       </div>
   )

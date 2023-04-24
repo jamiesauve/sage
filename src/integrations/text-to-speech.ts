@@ -40,7 +40,7 @@ export const speakText = async (text: string) => {
       // @ts-ignore
       document.getElementById('audioPlayback').play();
     } catch (err) {
-      console.log("Error", err);
+      console.error("Error", err);
       // @ts-ignore
       document.getElementById('result').innerHTML = err;
   }

@@ -1,25 +1,40 @@
+import { useEffect, useState } from "react";
+
 interface InputAreaProps {
-  handleSubmit: () => void;
+  handleSubmit: (content: string) => void;
   isFetching: boolean;
-  queryContent: string;
-  setQueryContent: (queryContent: string) => void;
 }
 
 export const InputArea = (props: InputAreaProps) => {
   const {
     handleSubmit,
     isFetching,
-    queryContent,
-    setQueryContent,
   } = props;
+
+  const [content, setContent] = useState<string>("");
+
+  const submitOnEnterListener = (e: KeyboardEvent) => {
+    if (e.key === "Enter" && e.shiftKey === false) {
+      handleSubmit(content);
+      setContent("");
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("keyup", submitOnEnterListener)
+
+    return () => {
+      window.removeEventListener("keyup", submitOnEnterListener)
+    }
+  }, [ submitOnEnterListener ])
 
   return (
     <div className="input-area">
         <input
           autoFocus
           className="input"
-          onChange={(e) => setQueryContent(e.target.value)}
-          value={queryContent}
+          onChange={(e) => setContent(e.target.value)}
+          value={content}
           placeholder="Ask a question"
         />
 
@@ -29,7 +44,10 @@ export const InputArea = (props: InputAreaProps) => {
 
         <button
           className="submit-button"
-          onClick={handleSubmit}
+          onClick={() => {
+            handleSubmit(content);
+            setContent("");
+          }}
         >
           Submit
         </button>
