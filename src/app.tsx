@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { speakText } from './integrations/text-to-speech'
 import { askChatGpt } from './integrations/chat-gpt';
-import { minimizeWindow } from './helpers/minimize-window';
+import { formatResponse } from './helpers/format-response';
 import { DecorativeImageSvg } from './components/decorative-image-svg';
 import { InputArea } from './components/input-area';
 import { OptionsArea } from './components/options-area';
@@ -71,15 +71,16 @@ export const App = () => {
     const response = await askChatGpt(queryContent);
     setIsFetching(false);
 
-    addPastMessage({ message: response, fromUser: false });
+    const formattedResponse = formatResponse(response);
 
+    addPastMessage({ message: response, messageJSX: formattedResponse, fromUser: false });
     speakText(response);
   }
 
   const handleSubmit = () => {
     if(queryContent) {
       handleUserQuery();
-      addPastMessage({ message: queryContent, fromUser: true })
+      addPastMessage({ message: content, messageJSX: [<p className="text">{content}</p>], fromUser: true })
       setQueryContent("")
     }
   }
@@ -93,11 +94,15 @@ export const App = () => {
       <div className="feed-container" ref={feedContainerElementRef}>
         <div className="feed">
           {
-            pastMessages.map((messageInfo, index) => (
-              <p className={`message ${messageInfo.fromUser ? "from-user" : "from-api"}`} key={index}>
-                {messageInfo.message}
-              </p>
-            ))
+            pastMessages.map((messageInfo, index) => {          
+              return (
+              <div 
+                className={`message ${messageInfo.fromUser ? "from-user" : "from-api"}`} 
+                key={index}
+              >
+                {messageInfo.messageJSX}
+              </div>
+            )})
           }
         </div>
       </div>

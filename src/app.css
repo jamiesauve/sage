@@ -1,6 +1,7 @@
 .app {
   height: 100vh;
   width: 100vw;
+  min-width: 350px;
   display: flex;
   flex-direction: column;
 
@@ -208,4 +209,17 @@ button:focus-visible {
   height: 300px;
   width: 300px;
   transform: scaleX(-1) rotate(90deg);
+}
+
+.code {
+  font-family: Consolas,"courier new";
+  background-color: rgba(128, 128, 128, 0.2);
+  padding: 2px;
+  font-size: 105%;
+  margin: 0;
+  margin-left: 20px;
+}
+
+.list-item {
+  margin-left: 20px;
 }
