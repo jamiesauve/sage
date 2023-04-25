@@ -1,3 +1,5 @@
+import { BaseDirectory, writeTextFile } from "@tauri-apps/api/fs";
+
 import { useEffect, useRef, useState } from 'react'
 
 import { askChatGpt } from './integrations/chat-gpt';
@@ -45,21 +47,28 @@ export const App = () => {
     const formattedResponse = formatResponse(response);
 
     addPastMessage({ message: response, messageJSX: formattedResponse, fromUser: false });
-    speakText(response);
   }
 
   const handleSubmit = (content: string) => {
     if(content) {
-      addPastMessage({ message: content, messageJSX: [<p className="text">{content}</p>], fromUser: true })
+      if (content.startsWith("set-api-key ")) {
+        try {
+          writeTextFile('open-ai-api-key.txt', content.split(" ")[1], { dir: BaseDirectory.App });
+        } catch (e) {
+          console.error('error writing to file:', e)
+        }
+      } else {
+        addPastMessage({ message: content, messageJSX: [<p className="text">{content}</p>], fromUser: true })
 
         handleUserQuery(content);
+      }
     }
   }
 
   const regenerateReply = () => {
     handleUserQuery(lastUserMessage?.message);
   }
-
+  
   return (
     <div className="app">
       <div className="decorative-image">

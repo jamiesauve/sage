@@ -13,6 +13,16 @@
   },
   "tauri": {
     "allowlist": {
+      "fs": {
+        "createDir": true,
+        "exists": true,
+        "readFile": true,
+        "writeFile": true,
+        "scope": [
+          "$APP",
+          "$APP/*"
+        ]
+      },
       "window": {
         "setAlwaysOnTop": true,
         "setSize": true,
@@ -63,12 +73,11 @@
     },
     "windows": [
       {
-        "alwaysOnTop": true,
         "fullscreen": false,
         "height": 800,
         "resizable": true,
-        "title": "ChaptGPT Assistant",
-        "width": 300
+        "title": "Hermione",
+        "width": 350
       }
     ]
   }
