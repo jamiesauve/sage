@@ -4,11 +4,11 @@
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "npm run dev",
     "devPath": "http://localhost:5173",
-    "distDir": "../build",
-    "withGlobalTauri": true
+    "distDir": "../dist",
+    "withGlobalTauri": false
   },
   "package": {
-    "productName": "ChatGPT Assistant",
+    "productName": "Hermione",
     "version": "0.1.0"
   },
   "tauri": {

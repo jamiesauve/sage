@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "PORT=4214 vite",
-    "build": "tsc && vite build",
+    "dev": "PORT=4214 vite serve ./src",
+    "build": "tsc && vite build ./src",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "vite": "./node_modules/.bin/vite serve ./src"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity": "^3.32.0",

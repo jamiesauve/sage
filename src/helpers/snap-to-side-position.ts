@@ -1,10 +1,9 @@
-//@ts-ignore
-const { appWindow, currentMonitor, LogicalSize, LogicalPosition } = window.__TAURI__.window;
+import { appWindow, currentMonitor, LogicalSize, LogicalPosition } from "@tauri-apps/api/window";
 
 export const snapToSidePosition = async () => {
   const monitor = await currentMonitor();
 
-  const monitorDimensions = monitor.size;
+  const monitorDimensions = monitor?.size ?? { height: 300, width: 300};
 
   // these values have been set based on the apps I use most often - change them to reposition/resize the app
   const TOP_TOOLBAR_HEIGHT = 103;

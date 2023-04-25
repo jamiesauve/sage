@@ -21,10 +21,10 @@ export const InputArea = (props: InputAreaProps) => {
   }
 
   useEffect(() => {
-    window.addEventListener("keyup", submitOnEnterListener)
+    document.addEventListener("keyup", submitOnEnterListener)
 
     return () => {
-      window.removeEventListener("keyup", submitOnEnterListener)
+      document.removeEventListener("keyup", submitOnEnterListener)
     }
   }, [ submitOnEnterListener ])
 
