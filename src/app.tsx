@@ -6,7 +6,6 @@ import { askChatGpt } from './integrations/chat-gpt';
 import { formatResponse } from './helpers/format-response';
 import { DecorativeImageSvg } from './components/decorative-image-svg';
 import { InputArea } from './components/input-area';
-import { OptionsArea } from './components/options-area';
 
 import type { MessageInfo } from './types/message-info';
 
@@ -14,9 +13,8 @@ import './app.css'
 
 export const App = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [lastUserMessage, setLastUserMessage] = useState<MessageInfo>();
   const [pastMessages, setPastMessages] = useState<MessageInfo[]>([]);
-
+  const [displayedMessages, setDisplayedMessages] = useState<MessageInfo[]>([]);
   const feedContainerElementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,13 +31,15 @@ export const App = () => {
       ...pastMessages,
       messageInfo
     ]);
+
+    setDisplayedMessages((pastMessages) => [
+      ...pastMessages,
+      messageInfo
+    ]);
   }
 
   const handleUserQuery = async (queryContent?: string) => {
     if (!queryContent) return;
-
-    setLastUserMessage({ message: queryContent, messageJSX: [<p className="text">{queryContent}</p>], fromUser: true });
-
     setIsFetching(true);
     const response = await askChatGpt(queryContent);
     setIsFetching(false);
@@ -57,16 +57,14 @@ export const App = () => {
         } catch (e) {
           console.error('error writing to file:', e)
         }
+      } else if (content === "clear") {
+        setDisplayedMessages([]);
       } else {
         addPastMessage({ message: content, messageJSX: [<p className="text">{content}</p>], fromUser: true })
 
         handleUserQuery(content);
       }
     }
-  }
-
-  const regenerateReply = () => {
-    handleUserQuery(lastUserMessage?.message);
   }
   
   return (
@@ -78,7 +76,7 @@ export const App = () => {
       <div className="feed-container" ref={feedContainerElementRef}>
         <div className="feed">
           {
-            pastMessages.map((messageInfo, index) => {          
+            displayedMessages.map((messageInfo, index) => {          
               return (
               <div 
                 className={`message ${messageInfo.fromUser ? "from-user" : "from-api"}`} 
@@ -95,11 +93,6 @@ export const App = () => {
         handleSubmit={handleSubmit}
         isFetching={isFetching}
         pastQueries={pastMessages?.filter(message => message.fromUser).map(message => message.message).reverse()}
-      />
-
-      <OptionsArea
-        regenerateReply={regenerateReply}
-        setPastMessages={setPastMessages}
       />
 
       <audio id="audioPlayback">
