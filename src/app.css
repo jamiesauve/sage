@@ -6,17 +6,17 @@
   flex-direction: column;
 
   /* ff 3.6+ */
-  background:-moz-linear-gradient(119deg, rgba(0, 255, 255, 0.44) 0%, rgba(0, 200, 255, 0.2) 100%); 
+  background:-moz-linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%); 
   /* safari 5.1+,chrome 10+ */
-  background:-webkit-linear-gradient(119deg, rgba(0, 255, 255, 0.44) 0%, rgba(0, 200, 255, 0.2) 100%);
+  background:-webkit-linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%);
   /* opera 11.10+ */
-  background:-o-linear-gradient(119deg, rgba(0, 255, 255, 0.44) 0%, rgba(0, 200, 255, 0.2) 100%);
+  background:-o-linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%);
   /* ie 6-9 */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00C8FF', endColorstr='#00FFFF', GradientType=0 );
   /* ie 10+ */
-  background:-ms-linear-gradient(119deg, rgba(0, 255, 255, 0.44) 0%, rgba(0, 200, 255, 0.2) 100%);
+  background:-ms-linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%);
   /* global 94%+ browsers support */
-  background:linear-gradient(119deg, rgba(0, 255, 255, 0.44) 0%, rgba(0, 200, 255, 0.2) 100%);
+  background:linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%);
 }
 
 .feed-container {
@@ -34,14 +34,14 @@
 }
 
 .message {
-  padding: 5px 10px;
+  padding: 0 20px;
   border-radius: 10px;
   margin: 5px 0;
 }
 
 .from-user {
   align-self: flex-end;
-  background-color: rgba(0, 205, 205, 0.8);
+  background-color: rgba(184, 108, 224, 0.8);
   font-weight: 500;
   text-shadow: 0 0 10px rgb(0, 50, 50, 1);
   
@@ -50,7 +50,7 @@
 
 .from-api {
   align-self: flex-start;
-  background-color: rgba(0, 150, 2505, 0.8);
+  background-color: rgba(90, 34, 118, 0.8);
   text-shadow: 0 0 10px rgb(0, 50, 50, 1);
   font-weight: 500;
 
@@ -105,8 +105,8 @@ button {
   font-size: 16px;
   cursor: pointer;
   transition: border-color 0.25s;
-  color: white;
-  background-color: rgba(0, 255, 255, 0.3);
+  color: rgb(245, 242, 247);
+  background-color: rgba(72, 65, 75, 0.8);
   padding: 0 20px;
 }
 button:hover {
@@ -134,7 +134,7 @@ button:focus-visible {
 .lds-ripple {
   display: inline-block;
   position: absolute;
-  bottom: -4px;
+  bottom: -32px;
   right: 86px;
 
   z-index: 10;
