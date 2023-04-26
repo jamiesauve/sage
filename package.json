@@ -8,7 +8,7 @@
     "build": "tsc && vite build ./src",
     "preview": "vite preview",
     "tauri": "tauri",
-    "vite": "./node_modules/.bin/vite serve ./src"
+    "vite": "./node_modules/.bin/vite"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity": "^3.32.0",
