@@ -3,37 +3,70 @@ import { useEffect, useState } from "react";
 interface InputAreaProps {
   handleSubmit: (content: string) => void;
   isFetching: boolean;
+  pastQueries: string[];
 }
 
 export const InputArea = (props: InputAreaProps) => {
   const {
     handleSubmit,
     isFetching,
+    pastQueries,
   } = props;
 
   const [content, setContent] = useState<string>("");
+  const [unsubmittedContent, setUnsubmittedContent] = useState<string>("");
+  const [pastMessageIndex, setPastMessageIndex] = useState<number>(-1);
 
-  const submitOnEnterListener = (e: KeyboardEvent) => {
+  const onKeyUpListener = (e: KeyboardEvent) => {
     if (e.key === "Enter" && e.shiftKey === false) {
       handleSubmit(content);
       setContent("");
+      setUnsubmittedContent("");
+    } else if (["ArrowUp", "ArrowDown"].includes(e.key)) {
+      handleMessageHistoryChange(e.key);
     }
   }
 
+  const handleMessageHistoryChange = (keyName: string) => {
+    let newIndex = pastMessageIndex;
+    
+    if (keyName === "ArrowDown" && pastMessageIndex >= 0) {
+      newIndex = pastMessageIndex - 1;  
+    } else if (keyName === "ArrowUp" && pastMessageIndex < pastQueries.length - 1) {
+      newIndex = pastMessageIndex + 1;  
+    }
+
+    if (keyName === "ArrowUp") {
+      setContent(pastQueries[newIndex]);
+    } else if (keyName === "ArrowDown") {
+      if (newIndex === -1) {
+        setContent(unsubmittedContent)
+      } else if (newIndex >= 0) {
+        setContent(pastQueries[newIndex]);
+      }
+    }
+
+    setPastMessageIndex(newIndex);
+  }
+
+
   useEffect(() => {
-    document.addEventListener("keyup", submitOnEnterListener)
+    document.addEventListener("keyup", onKeyUpListener)
 
     return () => {
-      document.removeEventListener("keyup", submitOnEnterListener)
+      document.removeEventListener("keyup", onKeyUpListener)
     }
-  }, [ submitOnEnterListener ])
+  }, [ onKeyUpListener ])
 
   return (
     <div className="input-area">
         <input
           autoFocus
           className="input"
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => {
+            setContent(e.target.value);
+            setUnsubmittedContent(e.target.value);
+          }}
           value={content}
           placeholder="Ask a question"
         />
@@ -47,6 +80,7 @@ export const InputArea = (props: InputAreaProps) => {
           onClick={() => {
             handleSubmit(content);
             setContent("");
+            setUnsubmittedContent("");
           }}
         >
           Submit

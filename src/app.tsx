@@ -94,6 +94,7 @@ export const App = () => {
       <InputArea
         handleSubmit={handleSubmit}
         isFetching={isFetching}
+        pastQueries={pastMessages?.filter(message => message.fromUser).map(message => message.message).reverse()}
       />
 
       <OptionsArea
