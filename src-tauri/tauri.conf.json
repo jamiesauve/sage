@@ -8,7 +8,7 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "Hermione",
+    "productName": "Sage",
     "version": "0.1.0"
   },
   "tauri": {
@@ -47,7 +47,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.hermione.app",
+      "identifier": "com.sage.app",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -76,7 +76,7 @@
         "fullscreen": false,
         "height": 800,
         "resizable": true,
-        "title": "Hermione",
+        "title": "Sage",
         "width": 350
       }
     ]
