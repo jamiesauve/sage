@@ -7,7 +7,7 @@ import { formatResponse } from './helpers/format-response';
 import { DecorativeImageSvg } from './components/decorative-image-svg';
 import { InputArea } from './components/input-area';
 
-import type { MessageInfo } from './types/message-info';
+import { Entity, MessageInfo } from './types/message-info';
 
 import './app.css'
 
@@ -22,7 +22,7 @@ export const App = () => {
       feedContainerElementRef.current.scrollTop = feedContainerElementRef.current.scrollHeight
     }
   }, [
-    pastMessages,
+    displayedMessages,
     feedContainerElementRef.current
   ])
 
@@ -31,7 +31,8 @@ export const App = () => {
 
 
     setDisplayedMessages(previous => [...previous, messageInfo])
-    if (messageInfo.fromUser) {
+    
+    if (messageInfo.from === Entity.User) {
       setPastUserMessages(previous => [...previous, messageInfo.message])
   }
   };
@@ -39,12 +40,19 @@ export const App = () => {
   const handleUserQuery = async (queryContent?: string) => {
     if (!queryContent) return;
     setIsFetching(true);
+
+    try {
     const response = await askChatGpt(queryContent);
     setIsFetching(false);
 
     const formattedResponse = formatResponse(response);
+      addPastMessage({ message: response, messageJSX: formattedResponse, from: Entity.Api });
+    } catch (e) {
+      console.error("error calling ChatGPT", e);
+      const failureMessage = "Failed to connect to ChatGPT."
 
-    addPastMessage({ message: response, messageJSX: formattedResponse, fromUser: false });
+      addPastMessage({ message: failureMessage, messageJSX: [<p className="text" key={`message${messageCountRef}`}>{failureMessage}</p>], from: Entity.Sage });
+    }
   }
 
   const handleSubmit = useCallback(async (content: string) => {
@@ -56,13 +64,32 @@ export const App = () => {
 
           setOpenAiApiKey(apiKey);
 
+          const successMessage = `API key successfully updated to "${apiKey}".`
+          
+          addPastMessage({ 
+            message: successMessage,
+            messageJSX: [<p className="text" key={`message${messageCountRef}`}>{successMessage}</p>], 
+            from: Entity.Sage 
+          });
         } catch (e) {
           console.error('error writing to file:', e)
+          
+          const failureMessage = "Failed to update the API key."
+         
+          addPastMessage({ 
+            message: failureMessage,
+            messageJSX: [<p className="text" key={`message${messageCountRef}`}>{failureMessage}</p>], 
+            from: Entity.Sage 
+          });
         }
       } else if (content === "clear") {
         setDisplayedMessages([]);
       } else {
-        addPastMessage({ message: content, messageJSX: [<p className="text">{content}</p>], fromUser: true })
+        addPastMessage({ 
+          message: content,
+          messageJSX: [<p className="text" key={`message${messageCountRef}`}>{content}</p>], 
+          from: Entity.User
+         })
 
         handleUserQuery(content);
       }
@@ -84,7 +111,7 @@ export const App = () => {
             displayedMessages.map((messageInfo, index) => {          
               return (
               <div 
-                className={`message ${messageInfo.fromUser ? "from-user" : "from-api"}`} 
+                className={`message from-${messageInfo.from}`} 
                 key={index}
               >
                 {messageInfo.messageJSX}

@@ -58,6 +58,15 @@
   margin-right: 20px;
 }
 
+.from-sage {
+  align-self: flex-start;
+  background-color: rgba(72, 65, 75, 0.8);
+  text-shadow: 0 0 10px rgb(0, 50, 50, 1);
+  font-weight: 500;
+
+  margin-right: 20px;
+}
+
 .message-area {
   width: 100%;
 
