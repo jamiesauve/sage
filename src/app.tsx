@@ -1,8 +1,8 @@
 import { BaseDirectory, writeTextFile } from "@tauri-apps/api/fs";
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { askChatGpt } from './integrations/chat-gpt';
+import { askChatGpt, setOpenAiApiKey } from './integrations/chat-gpt';
 import { formatResponse } from './helpers/format-response';
 import { DecorativeImageSvg } from './components/decorative-image-svg';
 import { InputArea } from './components/input-area';
@@ -49,11 +49,15 @@ export const App = () => {
     addPastMessage({ message: response, messageJSX: formattedResponse, fromUser: false });
   }
 
-  const handleSubmit = (content: string) => {
+  const handleSubmit = useCallback(async (content: string) => {
     if(content) {
       if (content.startsWith("set-api-key ")) {
         try {
-          writeTextFile('open-ai-api-key.txt', content.split(" ")[1], { dir: BaseDirectory.App });
+          const apiKey = content.split(" ")[1];
+          await writeTextFile('open-ai-api-key.txt', apiKey, { dir: BaseDirectory.App });
+
+          setOpenAiApiKey(apiKey);
+
         } catch (e) {
           console.error('error writing to file:', e)
         }
@@ -65,7 +69,10 @@ export const App = () => {
         handleUserQuery(content);
       }
     }
-  }
+  },[
+    handleUserQuery,
+    addPastMessage
+  ])
   
   return (
     <div className="app">

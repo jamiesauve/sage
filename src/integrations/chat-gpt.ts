@@ -5,30 +5,39 @@ const openAIApiUrl = "https://api.openai.com/v1/chat/completions";
 let hasBeenInitialized = false;
 let openAiApiKey = "";
 
+export const setOpenAiApiKey = (apiKey: string) => {
+  openAiApiKey = apiKey;
+  hasBeenInitialized = true;
+}
+
 const initializeChatGpt = async () => {
   const pathExists = await exists('com.tauri.dev', { dir: BaseDirectory.App });
 
+  if (!pathExists) {
    try {   
-     if (!pathExists) {
-       // config is not actually used, but we can't write files without creating the parent directory
-       await createDir('config', { dir: BaseDirectory.App, recursive: true });
-      }
+      // config is not actually used, but we can't write files without creating the parent directory
+      await createDir('config', { dir: BaseDirectory.App, recursive: true });
     } catch (e) {
       console.error('error creating directory', e)
     }
+  }
     
-    try {
-      openAiApiKey = await readTextFile('open-ai-api-key.txt', { dir: BaseDirectory.App })
-    } catch (e) {
-      console.error('error reading file:', e)
+  try {
+    openAiApiKey = await readTextFile('open-ai-api-key.txt', { dir: BaseDirectory.App })
+
+    if (openAiApiKey) {
+      hasBeenInitialized = true;
+    } else {
+      console.error('no api key is stored')
     }
+  } catch (e) {
+    console.error('error reading file:', e)
+  }
 }
 
 export const askChatGpt = async (query: string): Promise<string> => {
   if (!hasBeenInitialized) {
     await initializeChatGpt();
-    
-    hasBeenInitialized = true;
   }
 
   const response = await fetch(
