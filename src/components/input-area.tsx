@@ -36,7 +36,7 @@ export const InputArea = (props: InputAreaProps) => {
       newIndex = pastMessageIndex + 1;  
     }
 
-    if (keyName === "ArrowUp") {
+    if (keyName === "ArrowUp" && newIndex !== -1) {
       setContent(pastQueries[newIndex]);
     } else if (keyName === "ArrowDown") {
       if (newIndex === -1) {
