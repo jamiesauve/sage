@@ -16,6 +16,7 @@ export const App = () => {
   const [pastUserMessages, setPastUserMessages] = useState<string[]>([]);
   const [displayedMessages, setDisplayedMessages] = useState<MessageInfo[]>([]);
   const feedContainerElementRef = useRef<HTMLDivElement>(null);
+  const messageCountRef = useRef<number>(0);
 
   useEffect(() => {
     if (feedContainerElementRef?.current) {
@@ -27,14 +28,13 @@ export const App = () => {
   ])
 
   const addPastMessage = (messageInfo: MessageInfo) => {
-
-
+    messageCountRef.current++;
 
     setDisplayedMessages(previous => [...previous, messageInfo])
     
     if (messageInfo.from === Entity.User) {
       setPastUserMessages(previous => [...previous, messageInfo.message])
-  }
+    }
   };
 
   const handleUserQuery = async (queryContent?: string) => {
@@ -42,15 +42,15 @@ export const App = () => {
     setIsFetching(true);
 
     try {
-    const response = await askChatGpt(queryContent);
-    setIsFetching(false);
-
-    const formattedResponse = formatResponse(response);
+      const response = await askChatGpt(queryContent);
+      setIsFetching(false);
+  
+      const formattedResponse = formatResponse(response);
       addPastMessage({ message: response, messageJSX: formattedResponse, from: Entity.Api });
     } catch (e) {
       console.error("error calling ChatGPT", e);
       const failureMessage = "Failed to connect to ChatGPT."
-
+      
       addPastMessage({ message: failureMessage, messageJSX: [<p className="text" key={`message${messageCountRef}`}>{failureMessage}</p>], from: Entity.Sage });
     }
   }
@@ -108,15 +108,14 @@ export const App = () => {
       <div className="feed-container" ref={feedContainerElementRef}>
         <div className="feed">
           {
-            displayedMessages.map((messageInfo, index) => {          
-              return (
+            displayedMessages.map(messageInfo => (
               <div 
                 className={`message from-${messageInfo.from}`} 
-                key={index}
+                key={messageInfo.message}
               >
                 {messageInfo.messageJSX}
               </div>
-            )})
+            ))
           }
         </div>
       </div>
