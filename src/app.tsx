@@ -13,7 +13,7 @@ import './app.css'
 
 export const App = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [pastMessages, setPastMessages] = useState<MessageInfo[]>([]);
+  const [pastUserMessages, setPastUserMessages] = useState<string[]>([]);
   const [displayedMessages, setDisplayedMessages] = useState<MessageInfo[]>([]);
   const feedContainerElementRef = useRef<HTMLDivElement>(null);
 
@@ -27,16 +27,14 @@ export const App = () => {
   ])
 
   const addPastMessage = (messageInfo: MessageInfo) => {
-    setPastMessages((pastMessages) => [
-      ...pastMessages,
-      messageInfo
-    ]);
 
-    setDisplayedMessages((pastMessages) => [
-      ...pastMessages,
-      messageInfo
-    ]);
+
+
+    setDisplayedMessages(previous => [...previous, messageInfo])
+    if (messageInfo.fromUser) {
+      setPastUserMessages(previous => [...previous, messageInfo.message])
   }
+  };
 
   const handleUserQuery = async (queryContent?: string) => {
     if (!queryContent) return;
@@ -99,7 +97,7 @@ export const App = () => {
       <InputArea
         handleSubmit={handleSubmit}
         isFetching={isFetching}
-        pastQueries={pastMessages?.filter(message => message.fromUser).map(message => message.message).reverse()}
+        pastQueries={[...pastUserMessages].reverse()}
       />
 
       <audio id="audioPlayback">
