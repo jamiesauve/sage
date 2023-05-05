@@ -92,6 +92,18 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
               />
             </div>
           </div>
+          
+          { !apiKey && (
+            <p className="api-key-info">
+              If you don't have an API key, you can create one at{" "} 
+              <a 
+                href="https://platform.openai.com/account/api-keys"
+              >
+                https://platform.openai.com/account/api-keys
+              </a>
+              .
+              </p>
+          )}
         </div>
 
         <div className="spacer" />

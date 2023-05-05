@@ -48,10 +48,12 @@
 
 .settings-menu-modal .list {
   align-self: stretch;
+
+  margin-bottom: 20px;
 }
 
 .settings-menu-modal .row {
-  margin: 20px 0;
+  margin-top: 20px;
 
   display: flex;
 
@@ -62,7 +64,7 @@
   margin: 0 5px;
 }
 
-.label {
+.settings-menu-modal .label {
   flex-shrink: 0;
 
   width: 70px;
@@ -70,13 +72,13 @@
   text-align: center;
 }
 
-.value {
+.settings-menu-modal .value {
   flex-grow: 1;
 
   display: flex;
 }
 
-.value > * {
+.settings-menu-modal .value > * {
   flex-grow: 1;
   font-size: 15px;
   font-family: Arial, Helvetica, sans-serif;
@@ -84,20 +86,27 @@
   color: #000;
 }
 
-.value > *:disabled {
+.settings-menu-modal .value > *:disabled {
   background-color: #ddd;
   color: #444;
 }
 
-.value > textarea {
+.settings-menu-modal .value > textarea {
   resize: vertical;
   max-height: 270px;
   min-height: 30px;
 }
 
-.value > input[type="text"] {
+.settings-menu-modal .value > input[type="text"] {
   border-radius: 10px;
   padding: 0 10px;
+}
+
+.settings-menu-modal .api-key-info {
+  margin: 0 20px;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
 }
 
 .settings-menu-modal > .spacer {
