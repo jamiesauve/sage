@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { askChatGpt, setOpenAiApiKey } from './integrations/chat-gpt';
 import { formatResponse } from './helpers/format-response';
-import { DecorativeImageSvg } from './components/decorative-image-svg';
+import { DecorativeImageSvg } from './components/svg/decorative-image-svg';
 import { InputArea } from './components/input-area';
 import { SettingsButton } from "./components/settings-button";
 
