@@ -1,8 +1,6 @@
-import { BaseDirectory, writeTextFile } from "@tauri-apps/api/fs";
-
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { askChatGpt, setOpenAiApiKey } from './integrations/chat-gpt';
+import { askChatGpt } from './integrations/chat-gpt';
 import { formatResponse } from './helpers/format-response';
 import { DecorativeImageSvg } from './components/svg/decorative-image-svg';
 import { InputArea } from './components/input-area';
@@ -58,35 +56,9 @@ export const App = () => {
   }
 
   const handleSubmit = useCallback(async (content: string) => {
-    if(content) {
-      if (content.startsWith("set-api-key ")) {
-        try {
-          const apiKey = content.split(" ")[1];
-          await writeTextFile('open-ai-api-key.txt', apiKey, { dir: BaseDirectory.App });
-
-          setOpenAiApiKey(apiKey);
-
-          const successMessage = `API key successfully updated to "${apiKey}".`
-          
-          addPastMessage({ 
-            message: successMessage,
-            messageJSX: [<p className="text" key={`message${messageCountRef}`}>{successMessage}</p>], 
-            from: Entity.Sage 
-          });
-        } catch (e) {
-          console.error('error writing to file:', e)
-          
-          const failureMessage = "Failed to update the API key."
-         
-          addPastMessage({ 
-            message: failureMessage,
-            messageJSX: [<p className="text" key={`message${messageCountRef}`}>{failureMessage}</p>], 
-            from: Entity.Sage 
-          });
-        }
-      } else if (content === "clear") {
+    if (content.toLowerCase().trim() === "clear") {
         setDisplayedMessages([]);
-      } else {
+    } else if (content) {
         addPastMessage({ 
           message: content,
           messageJSX: [<p className="text" key={`message${messageCountRef}`}>{content}</p>], 
@@ -94,7 +66,6 @@ export const App = () => {
          })
 
         handleUserQuery(content);
-      }
     }
   },[
     handleUserQuery,
