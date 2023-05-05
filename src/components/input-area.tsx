@@ -19,9 +19,7 @@ export const InputArea = (props: InputAreaProps) => {
 
   const onKeyUpListener = (e: KeyboardEvent) => {
     if (e.key === "Enter" && e.shiftKey === false) {
-      handleSubmit(content);
-      setContent("");
-      setUnsubmittedContent("");
+      handleSubmitButtonClicked();
     } else if (["ArrowUp", "ArrowDown"].includes(e.key)) {
       handleMessageHistoryChange(e.key);
     }
@@ -49,6 +47,12 @@ export const InputArea = (props: InputAreaProps) => {
     setPastMessageIndex(newIndex);
   }
 
+  const handleSubmitButtonClicked = () => {
+    handleSubmit(content);
+    setContent("");
+    setUnsubmittedContent("");
+  }
+
 
   useEffect(() => {
     document.addEventListener("keyup", onKeyUpListener)
@@ -74,11 +78,7 @@ export const InputArea = (props: InputAreaProps) => {
 
         <button
           className="submit-button"
-          onClick={() => {
-            handleSubmit(content);
-            setContent("");
-            setUnsubmittedContent("");
-          }}
+          onClick={handleSubmitButtonClicked}
         >
           Submit
         </button>
