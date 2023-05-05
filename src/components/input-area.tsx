@@ -4,14 +4,12 @@ import "./input-area.css";
 
 interface InputAreaProps {
   handleSubmit: (content: string) => void;
-  isFetching: boolean;
   pastQueries: string[];
 }
 
 export const InputArea = (props: InputAreaProps) => {
   const {
     handleSubmit,
-    isFetching,
     pastQueries,
   } = props;
 
@@ -73,10 +71,6 @@ export const InputArea = (props: InputAreaProps) => {
           value={content}
           placeholder="Ask a question"
         />
-
-        {isFetching &&
-          <div className="lds-ripple"><div></div><div></div></div>
-        }
 
         <button
           className="submit-button"

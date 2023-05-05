@@ -10,6 +10,7 @@ import { InputArea } from './components/input-area';
 import { Entity, MessageInfo } from './types/message-info';
 
 import './app.css'
+import { LoadingIndicator } from './components/loading-indicator';
 
 export const App = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -122,13 +123,16 @@ export const App = () => {
 
       <InputArea
         handleSubmit={handleSubmit}
-        isFetching={isFetching}
         pastQueries={[...pastUserMessages].reverse()}
       />
 
       <audio id="audioPlayback">
         <source id="audioSource" type="audio/mp3" src="" />
       </audio>
+
+      {
+        isFetching && <LoadingIndicator />
+      }
     </div>
   )
 }
