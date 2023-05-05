@@ -18,7 +18,7 @@ export const askChatGpt = async (query: string, pastMessages: MessageInfo[]): Pr
     {
       role: "user",
       content: query
-}
+    }
   ]
 
   const response = await fetch(

@@ -39,6 +39,7 @@ export const App = () => {
 
   const handleUserQuery = async (queryContent?: string) => {
     if (!queryContent) return;
+
     setIsFetching(true);
 
     try {
@@ -57,15 +58,15 @@ export const App = () => {
 
   const handleSubmit = useCallback(async (content: string) => {
     if (content.toLowerCase().trim() === "clear") {
-        setDisplayedMessages([]);
+      setDisplayedMessages([]);
     } else if (content) {
-        addPastMessage({ 
-          message: content,
-          messageJSX: [<p className="text" key={`message${messageCountRef}`}>{content}</p>], 
-          from: Entity.User
-         })
+      addPastMessage({ 
+        message: content,
+        messageJSX: [<p className="text" key={`message${messageCountRef}`}>{content}</p>], 
+        from: Entity.User
+        })
 
-        handleUserQuery(content);
+      handleUserQuery(content);
     }
   },[
     handleUserQuery,
