@@ -1,0 +1,29 @@
+.input-area {
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 -2px 4px rgba(255, 255, 255, 0.1);
+  
+  display: flex;
+
+  box-sizing: border-box;
+  
+  padding: 5px;
+}
+
+textarea {
+  padding: 10px;
+  min-width: 100px;
+  margin-right: 5px;
+  border: pink 3px solid;
+  border-radius: 10px;
+  flex-grow: 1;
+  font-size: 14px;
+  font-weight: 500;
+
+  background-color: white;
+  color: #222;
+}
+
+textarea:focus,
+textarea:focus-visible {
+  outline: 2px auto -webkit-focus-ring-color;
+}

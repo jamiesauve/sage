@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import "./input-area.css";
+
 interface InputAreaProps {
   handleSubmit: (content: string) => void;
   isFetching: boolean;
