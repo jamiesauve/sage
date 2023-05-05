@@ -38,34 +38,6 @@ button:focus-visible {
   outline: 2px auto -webkit-focus-ring-color;
 }
 
-.options-area {
-  display: flex;
-  justify-content: center;
-
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 2px 20px;
-}
-
-.options-area button {
-  font-size: 14px;
-  padding: 2px 10px;
-
-  background-color: rgba(200, 255, 255, 0.3)
-}
-
-.decorative-image > svg {
-  position: absolute;
-  opacity: 0.5;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
-  right: -72px;
-  z-index: -1;
-  height: 300px;
-  width: 300px;
-  transform: scaleX(-1) rotate(90deg);
-}
-
 .code {
   font-family: Consolas,"courier new";
   background-color: rgba(128, 128, 128, 0.2);

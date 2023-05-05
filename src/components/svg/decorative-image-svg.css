@@ -1,0 +1,12 @@
+.decorative-image > svg {
+  position: absolute;
+  opacity: 0.5;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  right: -72px;
+  z-index: -1;
+  height: 300px;
+  width: 300px;
+  transform: scaleX(-1) rotate(90deg);
+}

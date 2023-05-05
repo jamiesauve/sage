@@ -68,10 +68,8 @@ export const App = () => {
   return (
     <div className="app">
       <SettingsButton />
-
-      <div className="decorative-image">
-        <DecorativeImageSvg />
-      </div>
+      
+      <DecorativeImageSvg />
 
       <MessageFeed messages={displayedMessages} />
 
