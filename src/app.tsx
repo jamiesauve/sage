@@ -42,9 +42,7 @@ export const App = () => {
     setIsFetching(true);
 
     try {
-      const response = await askChatGpt(queryContent);
-      setIsFetching(false);
-  
+      const response = await askChatGpt(queryContent, displayedMessages);
       const formattedResponse = formatResponse(response);
       addPastMessage({ message: response, messageJSX: formattedResponse, from: Entity.Api });
     } catch (e) {
@@ -52,6 +50,8 @@ export const App = () => {
       const failureMessage = "Failed to connect to ChatGPT. You can set your OpenAI API key using \"set-api-key <api-key>\""
       
       addPastMessage({ message: failureMessage, messageJSX: [<p className="text" key={`message${messageCountRef}`}>{failureMessage}</p>], from: Entity.Sage });
+    } finally {
+      setIsFetching(false);
     }
   }
 
