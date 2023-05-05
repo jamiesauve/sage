@@ -60,13 +60,14 @@ export const InputArea = (props: InputAreaProps) => {
 
   return (
     <div className="input-area">
-        <input
+        <textarea
           autoFocus
           className="input"
           onChange={(e) => {
             setContent(e.target.value);
             setUnsubmittedContent(e.target.value);
           }}
+          rows={2}
           value={content}
           placeholder="Ask a question"
         />
