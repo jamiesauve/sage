@@ -6,6 +6,7 @@ import { askChatGpt, setOpenAiApiKey } from './integrations/chat-gpt';
 import { formatResponse } from './helpers/format-response';
 import { DecorativeImageSvg } from './components/decorative-image-svg';
 import { InputArea } from './components/input-area';
+import { SettingsButton } from "./components/settings-button";
 
 import { Entity, MessageInfo } from './types/message-info';
 
@@ -102,6 +103,8 @@ export const App = () => {
   
   return (
     <div className="app">
+      <SettingsButton />
+
       <div className="decorative-image">
         <DecorativeImageSvg />
       </div>
