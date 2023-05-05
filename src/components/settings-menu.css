@@ -1,0 +1,110 @@
+.settings-menu {
+  height: 100vh;
+  width: 100vw;
+
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.settings-menu-backdrop {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(180, 180, 180, 0.5);
+  z-index: 10;
+}
+
+.settings-menu-modal {
+  /* ff 3.6+ */
+  background:-moz-linear-gradient(119deg, rgb(175, 94, 218) 0%, rgb(138, 115, 147) 100%); 
+  /* safari 5.1+,chrome 10+ */
+  background:-webkit-linear-gradient(119deg, rgb(175, 94, 218) 0%, rgb(138, 115, 147) 100%);
+  /* opera 11.10+ */
+  background:-o-linear-gradient(119deg, rgb(175, 94, 218) 0%, rgb(138, 115, 147) 100%);
+  /* ie 6-9 */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00C8FF', endColorstr='#00FFFF', GradientType=0 );
+  /* ie 10+ */
+  background:-ms-linear-gradient(119deg, rgb(175, 94, 218) 0%, rgb(138, 115, 147) 100%);
+  /* global 94%+ browsers support */
+  background:linear-gradient(119deg, rgb(175, 94, 218) 0%, rgb(138, 115, 147) 100%);
+
+  z-index: 11;
+  width: 400px;
+  max-width: 90%;
+  height: 600px;
+  max-height: 90%;
+  border: 3px solid white;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings-menu-modal .list {
+  align-self: stretch;
+}
+
+.settings-menu-modal .row {
+  margin: 20px 0;
+
+  display: flex;
+
+  width: 100%;
+}
+
+.settings-menu-modal .row > .cell {
+  margin: 0 5px;
+}
+
+.label {
+  flex-shrink: 0;
+
+  width: 70px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.value {
+  flex-grow: 1;
+
+  display: flex;
+}
+
+.value > * {
+  flex-grow: 1;
+  font-size: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fff;
+  color: #000;
+}
+
+.value > *:disabled {
+  background-color: #ddd;
+  color: #444;
+}
+
+.value > textarea {
+  resize: vertical;
+  max-height: 270px;
+  min-height: 30px;
+}
+
+.value > input[type="text"] {
+  border-radius: 10px;
+  padding: 0 10px;
+}
+
+.settings-menu-modal > .spacer {
+  flex-grow: 1;
+}
+
+.settings-menu-modal button {
+  height: 40px;
+  margin: 20px;
+}

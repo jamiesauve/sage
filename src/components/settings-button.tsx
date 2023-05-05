@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SettingsMenu } from "./settings-menu";
 import { SettingsIcon } from "./svg/settings.icon-svg";
 
 import "./settings-button.css";
@@ -12,6 +13,7 @@ export const SettingsButton = () => {
       <SettingsIcon />
     </button>
 
+    {isSettingsMenuVisible && <SettingsMenu handleClose={ () => setIsSettingsMenuVisible(false) }/>}
     </>
   )
 }
