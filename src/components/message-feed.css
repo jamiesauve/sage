@@ -1,0 +1,57 @@
+.feed-container {
+  
+  overflow-y: auto;
+  height: calc(100vh - 50px);
+}
+
+.feed {
+  margin: 20px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.message {
+  padding: 0 20px;
+  border-radius: 10px;
+  margin: 5px 0;
+  word-break: break-word;
+}
+
+.from-user {
+  align-self: flex-end;
+  background-color: rgba(184, 108, 224, 0.8);
+  font-weight: 500;
+  text-shadow: 0 0 10px rgb(0, 50, 50, 1);
+  
+  margin-left: 20px;
+}
+
+.from-api {
+  align-self: flex-start;
+  background-color: rgba(90, 34, 118, 0.8);
+  text-shadow: 0 0 10px rgb(0, 50, 50, 1);
+  font-weight: 500;
+
+  margin-right: 20px;
+}
+
+.from-sage {
+  align-self: flex-start;
+  background-color: rgba(72, 65, 75, 0.8);
+  text-shadow: 0 0 10px rgb(0, 50, 50, 1);
+  font-weight: 500;
+
+  margin-right: 20px;
+}
+
+.message-area {
+  width: 100%;
+
+  display: flex;
+
+  
+  padding: 10px;
+  
+}

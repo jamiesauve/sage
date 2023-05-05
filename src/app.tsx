@@ -10,22 +10,14 @@ import { Entity, MessageInfo } from './types/message-info';
 
 import './app.css'
 import { LoadingIndicator } from './components/loading-indicator';
+import { MessageFeed } from './components/message-feed';
 
 export const App = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [pastUserMessages, setPastUserMessages] = useState<string[]>([]);
   const [displayedMessages, setDisplayedMessages] = useState<MessageInfo[]>([]);
-  const feedContainerElementRef = useRef<HTMLDivElement>(null);
+  
   const messageCountRef = useRef<number>(0);
-
-  useEffect(() => {
-    if (feedContainerElementRef?.current) {
-      feedContainerElementRef.current.scrollTop = feedContainerElementRef.current.scrollHeight
-    }
-  }, [
-    displayedMessages,
-    feedContainerElementRef.current
-  ])
 
   const addPastMessage = (messageInfo: MessageInfo) => {
     messageCountRef.current++;
@@ -81,20 +73,7 @@ export const App = () => {
         <DecorativeImageSvg />
       </div>
 
-      <div className="feed-container" ref={feedContainerElementRef}>
-        <div className="feed">
-          {
-            displayedMessages.map(messageInfo => (
-              <div 
-                className={`message from-${messageInfo.from}`} 
-                key={messageInfo.message}
-              >
-                {messageInfo.messageJSX}
-              </div>
-            ))
-          }
-        </div>
-      </div>
+      <MessageFeed messages={displayedMessages} />
 
       <InputArea
         handleSubmit={handleSubmit}
