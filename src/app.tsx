@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 
 import { askChatGpt } from './integrations/chat-gpt';
 import { formatResponse } from './helpers/format-response';

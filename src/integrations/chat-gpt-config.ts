@@ -1,4 +1,23 @@
-import { BaseDirectory, createDir, exists, readTextFile, writeTextFile } from "@tauri-apps/api/fs";
+import { osData } from "../helpers/getOsData";
+
+let fsInterface;
+
+if (osData.platform === "tauri") {
+  const { TauriFsInterface }  = await import("../helpers/tauri-fs-interface");
+  fsInterface = TauriFsInterface();
+} else {
+  const { useMockWebFsInterface } = await import("../helpers/web-mock-fs-interface");
+  fsInterface = useMockWebFsInterface();
+}
+
+console.log({ fsInterface })
+
+const {
+  readFile,
+  writeFile,
+  createFile,
+  checkIfFileExists
+} = fsInterface;
 
 export type ConfigItem = {
   label: string;
@@ -28,54 +47,19 @@ export const defaultConfig = {
   },
 };
 
-let doesConfigExist = false;
-
-export const checkIfConfigExists = async () => {
-    if (doesConfigExist) {
-      return true;
-    } else {
-      const result = await exists(chatGPTConfigFileName, { dir: BaseDirectory.App });
-      if (result) {
-        doesConfigExist = true;
-      }
-
-      return result;
-    }
-}
-
-export const createConfig = async () => {
-  try {   
-    // config is not actually used, but we can't write files without creating the parent directory and this does that
-    await createDir('config', { dir: BaseDirectory.App, recursive: true });
-
-    await writeTextFile(chatGPTConfigFileName, JSON.stringify(defaultConfig), { dir: BaseDirectory.App });
-  } catch (e) {
-    console.error('error creating new config file', e)
-  }
-} 
-
 export const getConfig = async (): Promise<Config> => {
-  const exists = await checkIfConfigExists();
+  const doesFileExist = await checkIfFileExists(chatGPTConfigFileName);
 
-  if (!exists) {
-    await createConfig();
+  if (!doesFileExist) {
+    await createFile(chatGPTConfigFileName, JSON.stringify(defaultConfig));
   }
 
-  const stringifiedConfig = await readTextFile(chatGPTConfigFileName, { dir: BaseDirectory.App })
-  const config: Config = JSON.parse(stringifiedConfig);
-  return config;
+  const stringifiedConfig = await readFile(chatGPTConfigFileName);
+  return JSON.parse(stringifiedConfig);
 };
 
 export const setConfig = async (config: Config) => {
-  const exists = await checkIfConfigExists();
-  try {
-    if (!exists) {
-      await createConfig();
-    }
-    await writeTextFile(chatGPTConfigFileName, JSON.stringify(config), { dir: BaseDirectory.App });
-  } catch (e) {
-    throw new Error(e as string);
-  }
+    await writeFile(chatGPTConfigFileName, JSON.stringify(config));
 };
 
 export const updateConfigWithSimpleValues = async (persona?: string, model?: string, apiKey?: string) => {
