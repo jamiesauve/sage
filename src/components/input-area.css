@@ -1,19 +1,24 @@
 .input-area {
-  background-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 -2px 4px rgba(255, 255, 255, 0.1);
-  
+  height: 58px;
+
+  align-self: stretch;
   display: flex;
 
   box-sizing: border-box;
-  
+
   padding: 5px;
+
+  border-radius: 10px;
+
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 -2px 4px rgba(255, 255, 255, 0..05);
+  
 }
 
 textarea {
   padding: 10px;
   min-width: 100px;
   margin-right: 5px;
-  border: pink 3px solid;
   border-radius: 10px;
   flex-grow: 1;
   font-size: 14px;

@@ -67,24 +67,26 @@ export const App = () => {
   
   return (
     <div className="app">
-      <SettingsButton />
-      
-      <DecorativeImageSvg />
+      <div className="main">
+        <SettingsButton />
+        
+        <DecorativeImageSvg />
 
-      <MessageFeed messages={displayedMessages} />
+        <MessageFeed messages={displayedMessages} />
 
-      <InputArea
-        handleSubmit={handleSubmit}
-        pastQueries={[...pastUserMessages].reverse()}
-      />
+        <InputArea
+          handleSubmit={handleSubmit}
+          pastQueries={[...pastUserMessages].reverse()}
+        />
 
-      <audio id="audioPlayback">
-        <source id="audioSource" type="audio/mp3" src="" />
-      </audio>
+        <audio id="audioPlayback">
+          <source id="audioSource" type="audio/mp3" src="" />
+        </audio>
 
-      {
-        isFetching && <LoadingIndicator />
-      }
+        {
+          isFetching && <LoadingIndicator />
+        }
+      </div>
     </div>
   )
 }

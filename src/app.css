@@ -4,6 +4,7 @@
   min-width: 350px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   /* ff 3.6+ */
   background:-moz-linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%); 
@@ -17,6 +18,17 @@
   background:-ms-linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%);
   /* global 94%+ browsers support */
   background:linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%);
+}
+
+.main {
+  width: 100%;
+  max-width: 700px;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color:rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
 }
 
 button {
