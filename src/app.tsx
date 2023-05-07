@@ -40,7 +40,7 @@ export const App = () => {
       addPastMessage({ message: response, messageJSX: formattedResponse, from: Entity.Api });
     } catch (e) {
       console.error("error calling ChatGPT", e);
-      const failureMessage = "Failed to connect to ChatGPT. You can set your OpenAI API key using \"set-api-key <api-key>\""
+      const failureMessage = "Failed to connect to ChatGPT. You might need to update your OpenAI API key in Settings."
       
       addPastMessage({ message: failureMessage, messageJSX: [<p className="text" key={`message${messageCountRef}`}>{failureMessage}</p>], from: Entity.Sage });
     } finally {

@@ -95,11 +95,11 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
           
           { !apiKey && (
             <p className="api-key-info">
-              If you don't have an API key, you can create one at{" "} 
+              If you don't have an API key, you can create one on the {" "} 
               <a 
                 href="https://platform.openai.com/account/api-keys"
               >
-                https://platform.openai.com/account/api-keys
+                OpenAI platform
               </a>
               .
               </p>
