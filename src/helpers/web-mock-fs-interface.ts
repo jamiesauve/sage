@@ -6,7 +6,7 @@ interface MockFile {
 export const useMockWebFsInterface = () => {
   let mockFolder: MockFile[] = [];
 
-  const readFile = (path: string) => {
+  const readFile = async (path: string) => {
     const file = mockFolder.find(mockFile => mockFile.path === path)
 
     if (!file) {
@@ -16,7 +16,7 @@ export const useMockWebFsInterface = () => {
     return file.content;
   }
 
-  const writeFile = (path: string, payload: string) => {
+  const writeFile = async (path: string, payload: string) => {
     const newMockFolder = mockFolder.filter(file => file.path !== path);
 
     const newFile = { path, content: payload } as MockFile;
@@ -25,10 +25,12 @@ export const useMockWebFsInterface = () => {
       ...newMockFolder,
       newFile,
     ]
+
+    return undefined;
   };
 
-  const createFile = (path: string, payload: string) => {
-    if (checkIfFileExists(path)) {
+  const createFile = async (path: string, payload: string) => {
+    if (await checkIfFileExists(path)) {
       writeFile(path, payload)
     } else {
       const newFile = { path, content: payload } as MockFile;
@@ -38,9 +40,11 @@ export const useMockWebFsInterface = () => {
         newFile,
       ]
     }
+
+    return undefined;
   }
 
-  const checkIfFileExists = (path: string) => {
+  const checkIfFileExists = async (path: string) => {
     const index = mockFolder.findIndex(mockFile => mockFile.path === path)
     return index !== -1;
   }

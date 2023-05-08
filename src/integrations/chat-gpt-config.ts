@@ -1,16 +1,4 @@
-import { osData } from "../helpers/getOsData";
-
-let fsInterface;
-
-if (osData.platform === "tauri") {
-  const { TauriFsInterface }  = await import("../helpers/tauri-fs-interface");
-  fsInterface = TauriFsInterface();
-} else {
-  const { useMockWebFsInterface } = await import("../helpers/web-mock-fs-interface");
-  fsInterface = useMockWebFsInterface();
-}
-
-console.log({ fsInterface })
+import { fsInterface } from "../helpers/fs-interface";
 
 const {
   readFile,
