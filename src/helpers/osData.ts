@@ -7,7 +7,7 @@ export const osData: OsData = {
   platform: undefined,
 };
 
-export const getOsData = async (): Promise<undefined> => {
+export const loadOsData = async (): Promise<OsData> => {
   try {
     const tauriOs = await import("@tauri-apps/api/os");
     const platform = await tauriOs.platform();
@@ -16,6 +16,6 @@ export const getOsData = async (): Promise<undefined> => {
   } catch (e) {
     osData.platform = "web";
   } finally {
-    return;
+    return osData;
   }
 }
