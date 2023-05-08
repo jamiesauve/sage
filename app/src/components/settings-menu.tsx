@@ -1,7 +1,7 @@
-import { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useRef } from "react";
 
 import { LoadingIndicator } from "./loading-indicator";
-import { getConfig, updateConfigWithSimpleValues } from "../integrations/chat-gpt-config";
+import { createChatGptFsInterface } from "../integrations/chat-gpt-fs-interface";
 
 import "./settings-menu.css";
 
@@ -10,22 +10,39 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
   const [persona, setPersona] = useState<string>("");
   const [model, setModel] = useState<string>("");
   const [apiKey, setApiKey] = useState<string>("");
+
+  const [chatGptInterface, setChatGptInterface] = useState<Record<string, any>>();
   
   useEffect(() => {
     (async () => {
-      const config = await getConfig();
+      const fsInterface = await createChatGptFsInterface();
+      setChatGptInterface(fsInterface);
+    })();
+  }, [])
+
+  useEffect(() => {
+    if (!chatGptInterface) return;
+    
+    (async () => {
+      const config = await chatGptInterface.getConfig();
 
       setPersona(config.persona.value);
       setModel(config.model.value);
       setApiKey(config.apiKey.value);
     })();
-  }, [])
+  }, [
+    chatGptInterface
+  ])
+
+  
   
   const update = async () => {
     try {
       setIsFetching(true);
       
-      await updateConfigWithSimpleValues(persona, model, apiKey);
+      console.log({ chatGptInterface })
+
+      await chatGptInterface?.updateConfigWithSimpleValues(persona, model, apiKey);
       
       setIsFetching(false);
   

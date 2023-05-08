@@ -9,6 +9,7 @@ const readFile = async (path: string): Promise<string> => {
     }
   
     const stringifiedConfig = await readTextFile(path, { dir: BaseDirectory.App })
+    console.log('read', path, stringifiedConfig)
     return stringifiedConfig;
   } catch (e) {
     throw new Error("Error reading file: " + e)
@@ -24,6 +25,8 @@ const writeFile = async (path: string, payload: string): Promise<undefined> => {
     }
 
     await writeTextFile(path, payload, { dir: BaseDirectory.App });
+    console.log('write', path, payload)
+
     return;
   } catch (e) {
     throw new Error("Error writing file: " + e)

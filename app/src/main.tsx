@@ -6,6 +6,10 @@ import { App } from "./app";
 
 import "./main.css";
 
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+
 (async () => {
   await getOsData();
   

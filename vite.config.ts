@@ -15,6 +15,9 @@ export default defineConfig({
   // env variables
   envPrefix: ['VITE_', 'TAURI_'],
   build: {
+    rollupOptions: {
+      input: "./app/index.html",
+    },
     // Tauri uses Chromium on Windows and WebKit on macOS and Linux
     target: 'es5',
     // don't minify for debug builds

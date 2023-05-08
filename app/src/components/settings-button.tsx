@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { SettingsMenu } from "./settings-menu";
 import { SettingsIcon } from "./svg/settings.icon-svg";
 

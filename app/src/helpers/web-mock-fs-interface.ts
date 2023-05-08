@@ -13,6 +13,8 @@ export const useMockWebFsInterface = () => {
       throw new Error("file not found: " + path);
     }
 
+    console.log('read', path, file.content)
+
     return file.content;
   }
 
@@ -20,6 +22,8 @@ export const useMockWebFsInterface = () => {
     const newMockFolder = mockFolder.filter(file => file.path !== path);
 
     const newFile = { path, content: payload } as MockFile;
+
+    console.log('write', path, payload)
 
     mockFolder = [
       ...newMockFolder,

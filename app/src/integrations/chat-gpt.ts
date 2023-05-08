@@ -1,9 +1,10 @@
 import { Entity, MessageInfo } from "../types/message-info";
-import { getConfig } from "./chat-gpt-config";
+import { createChatGptFsInterface } from "./chat-gpt-fs-interface";
 
 const openAIApiUrl = "https://api.openai.com/v1/chat/completions";
 
 export const askChatGpt = async (query: string, pastMessages: MessageInfo[]): Promise<string> => {
+  const { getConfig } = await createChatGptFsInterface();
   const config = await getConfig();
 
   const formattedMessages = [
