@@ -5,10 +5,20 @@ phases:
     runtime-versions:
       nodejs: 12
     commands:
+      - echo begin installing dependecies
       - npm install
+      - echo finish installing dependecies
   build:
     commands:
+      -echo begin build
       - npm run build
+      -echo finish build
   post_build:
     commands:
-      - aws s3 sync build/ s3://sage-ai-assistant
+      -echo begin post-build commands
+      - aws s3 sync src/dist/ s3://sage-ai-assistant
+      - aws logs push --region us-west-2 \
+        --stream ef56807c-fe33-4ce3-939c-689b4677dd55 \
+        --log-group-name /aws/codebuild/codebuild-sage-prod \
+        --sequence-token 14 \
+        dist/logs/buildLogFile.log
