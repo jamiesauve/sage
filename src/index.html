@@ -3,10 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sage</title>
+    <link rel="manifest" href="./sage.webmanifest" />
+    <title>Sage AI Assistant</title>
+    <style>
+      body {
+          /* ff 3.6+ */
+          background:-moz-linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%); 
+          /* safari 5.1+,chrome 10+ */
+          background:-webkit-linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%);
+          /* opera 11.10+ */
+          background:-o-linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%);
+          /* ie 6-9 */
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00C8FF', endColorstr='#00FFFF', GradientType=0 );
+          /* ie 10+ */
+          background:-ms-linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%);
+          /* global 94%+ browsers support */
+          background:linear-gradient(119deg, rgba(175, 94, 218, 0.44) 0%, rgba(238, 215, 247, 0.2) 100%);
+      }
+    </style>
   </head>
-  <body>
-    <div id="root">sorry, there was a problem.</div>
+  <body >
+    <div id="root"></div>
     <script type="module" src="./main.tsx"></script>
   </body>
 </html>
