@@ -1,7 +1,7 @@
 {
   "name": "Sage AI Assistant",
   "short_name": "Sage",
-  "start_url": "index.html",
+  "start_url": "index.html?mode=standalone",
   "scope": "./",
   "icons": [
     {
