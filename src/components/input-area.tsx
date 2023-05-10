@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import { isSafariOniOS } from "../helpers/detectSafariOniOS";
 
 import "./input-area.css";
 
@@ -16,6 +18,8 @@ export const InputArea = (props: InputAreaProps) => {
   const [content, setContent] = useState<string>("");
   const [unsubmittedContent, setUnsubmittedContent] = useState<string>("");
   const [pastMessageIndex, setPastMessageIndex] = useState<number>(-1);
+
+  const isUserOniOSSafari = useRef<boolean>(isSafariOniOS())
 
   const onKeyUpListener = (e: KeyboardEvent) => {
     if (e.key === "Enter" && e.shiftKey === false) {
@@ -63,7 +67,7 @@ export const InputArea = (props: InputAreaProps) => {
   }, [ onKeyUpListener ])
 
   return (
-    <div className="input-area">
+    <div className={`input-area${isUserOniOSSafari.current ? " isSafariOniOS" : ""}`}>
         <textarea
           autoFocus
           className="input"
