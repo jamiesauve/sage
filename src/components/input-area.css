@@ -15,8 +15,8 @@
 }
 
 .isSafariOniOS {
-  /* Safari on iOS obscures the bottom 120px or so of the app */
-  margin-bottom: 120px;
+  /* Safari on iOS obscures the bottom 80px or so of the app */
+  margin-bottom: 80px;
 }
 
 textarea {
