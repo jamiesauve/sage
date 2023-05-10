@@ -6,6 +6,11 @@ import { setFsInterfacePlatform } from './helpers/fs-interface';
 
 import "./main.css";
 
+if ("serviceWorker" in navigator) {
+  // register service worker
+  navigator.serviceWorker.register("service-worker.js");
+}
+
 (async () => {
   /**
    * set up data needed by app. This has to happen before we import App since
