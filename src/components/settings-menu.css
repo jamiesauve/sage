@@ -39,6 +39,8 @@
   /* global 94%+ browsers support */
   background:linear-gradient(119deg, rgb(175, 94, 218) 0%, rgb(138, 115, 147) 100%);
 
+  overflow: scroll;
+  
   z-index: 11;
   width: 400px;
   max-width: 90%;
