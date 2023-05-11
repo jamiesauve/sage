@@ -1,10 +1,12 @@
 
 export type OsData = {
   platform?: string;
+  isPWA?: boolean;
 }
 
 export const osData: OsData = {
   platform: undefined,
+  isPWA: undefined,
 };
 
 export const loadOsData = async (): Promise<OsData> => {
@@ -18,4 +20,14 @@ export const loadOsData = async (): Promise<OsData> => {
   } finally {
     return osData;
   }
+}
+
+export const detectPWA = () => {
+  window.addEventListener('DOMContentLoaded', () => {
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      osData.isPWA = true;
+    } else {
+      osData.isPWA = false;
+    }
+  });
 }
