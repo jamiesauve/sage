@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from "react";
 
 import { LoadingIndicator } from "./loading-indicator";
 import { getConfig, updateConfigWithSimpleValues } from "../integrations/chat-gpt-config";
+import { osData } from "../helpers/osData"; 
 
 import "./settings-menu.css";
 
@@ -10,22 +11,18 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
   const [persona, setPersona] = useState<string>("");
   const [model, setModel] = useState<string>("");
   const [apiKey, setApiKey] = useState<string>("");
-  
-  useEffect(() => {
-    (async () => {
-      const config = await getConfig();
+  // we can't save securely using web/PWA until we have a backend/authentication support
+  const [shouldSaveApiKey, setShouldSaveApiKey] = useState<boolean>(osData.platform !== "web");
 
-      setPersona(config.persona.value);
-      setModel(config.model.value);
-      setApiKey(config.apiKey.value);
-    })();
+  useEffect(() => {
+    loadConfig();
   }, [])
   
   const update = async () => {
     try {
       setIsFetching(true);
       
-      await updateConfigWithSimpleValues(persona, model, apiKey);
+      await updateConfigWithSimpleValues(shouldSaveApiKey, persona, model, apiKey);
       
       setIsFetching(false);
   
@@ -35,6 +32,14 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
       // TODO: notify user somehow
     }
   }
+
+  const loadConfig = async () => {
+    const config = await getConfig();
+
+    setPersona(config.persona.value);
+    setModel(config.model.value);
+    setApiKey(config.apiKey.value);
+  };
 
   return (
     <div className="settings-menu">
@@ -103,6 +108,48 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
               </a>
               .
               </p>
+          )}
+          
+          { osData.platform === "web" && (
+            <>
+              <p className="api-key-security-message">
+                NOTE: Sage cannot securely store your API key on a mobile device. Your API key will be encrypted but complete security is not guaranteed. 
+              </p>
+
+              <div className="radio-button-item">
+                <label>
+                  <input
+                    checked={shouldSaveApiKey}
+                    className="radio-input"
+                    name="should-save-api-key"
+                    onChange={() => setShouldSaveApiKey(true)}
+                    type="radio"
+                  />
+                    I understand the risks - save my API key insecurely
+                </label>
+              </div>
+
+              <div className="radio-button-item">
+                <label>
+                  <input
+                    checked={!shouldSaveApiKey}
+                    className="radio-input"
+                    name="should-save-api-key"
+                    onChange={() => setShouldSaveApiKey(false)}
+                    type="radio"
+                    />
+                    Delete my API key when I {osData.isPWA ? "restart the app" : "leave or refresh this page"}
+                </label>
+              </div>
+
+              <button onClick={async () => {
+                await updateConfigWithSimpleValues(true, persona, model, "");
+
+                loadConfig();
+              }}>
+                Remove my insecurely stored API key
+              </button>
+            </>
           )}
         </div>
 

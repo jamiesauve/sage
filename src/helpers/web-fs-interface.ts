@@ -1,52 +1,27 @@
-interface MockFile {
-  path: string;
-  content: string;
-}
-
-export const useMockWebFsInterface = () => {
-  let mockFolder: MockFile[] = [];
-
+export const useWebFsInterface = () => {
   const readFile = async (path: string) => {
-    const file = mockFolder.find(mockFile => mockFile.path === path)
+    const stringifiedConfig = localStorage.getItem(path);
 
-    if (!file) {
-      throw new Error("file not found: " + path);
-    }
-
-    return file.content;
+    return stringifiedConfig ?? "";
   }
 
-  const writeFile = async (path: string, payload: string) => {
-    const newMockFolder = mockFolder.filter(file => file.path !== path);
-
-    const newFile = { path, content: payload } as MockFile;
-
-    mockFolder = [
-      ...newMockFolder,
-      newFile,
-    ]
+  // TODO: encrypt me
+  const writeFile = async (path: string, payload: string): Promise<undefined> => {
+    localStorage.setItem(path, payload);
 
     return undefined;
   };
 
-  const createFile = async (path: string, payload: string) => {
-    if (await checkIfFileExists(path)) {
-      writeFile(path, payload)
-    } else {
-      const newFile = { path, content: payload } as MockFile;
-
-      mockFolder = [
-        ...mockFolder,
-        newFile,
-      ]
-    }
+  const createFile = async (path: string, payload: string): Promise<undefined> => {
+    await writeFile(path, payload);
 
     return undefined;
   }
 
-  const checkIfFileExists = async (path: string) => {
-    const index = mockFolder.findIndex(mockFile => mockFile.path === path)
-    return index !== -1;
+  const checkIfFileExists = async (path: string): Promise<boolean> => {
+    const stringifiedConfig = localStorage.getItem(path);
+
+    return !!stringifiedConfig;
   }
   
   return {
