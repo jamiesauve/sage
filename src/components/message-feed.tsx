@@ -28,12 +28,6 @@ export const MessageFeed: FC<{messages: MessageInfo[] }> = ({ messages }) => {
               </div>
             ))
           }
-
-          <div>Standalone? <div className="standalone">color</div></div>
-
-          <div>IndexedDB? {window.indexedDB ? "yes": "no"}</div>
-
-          <div>window.location.search: {window.location.search}</div>
         </div>
       </div>
   )
