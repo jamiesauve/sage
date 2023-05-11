@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { isSafariOniOS } from "../helpers/detectSafariOniOS";
-import { OsData, osData } from "../helpers/osData";
+import { osData } from "../helpers/osData";
 
 import "./input-area.css";
 
