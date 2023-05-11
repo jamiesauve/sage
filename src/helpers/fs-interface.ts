@@ -18,7 +18,7 @@ export const setFsInterfacePlatform = async (platform: string) => {
     const { TauriFsInterface }  = await import("../helpers/tauri-fs-interface");
     fsInterface = TauriFsInterface();
   } else {
-    const { useMockWebFsInterface } = await import("../helpers/web-mock-fs-interface");
-    fsInterface = useMockWebFsInterface();
+    const { useWebFsInterface } = await import("./web-fs-interface");
+    fsInterface = useWebFsInterface();
   }
 }
