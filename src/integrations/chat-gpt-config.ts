@@ -58,7 +58,7 @@ export const getConfig = async (): Promise<Config> => {
   
     return config;
   } catch (e: any) {
-    throw new Error(e.message);
+    throw new Error(e);
   }
 };
 

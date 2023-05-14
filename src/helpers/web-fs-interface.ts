@@ -1,13 +1,25 @@
+import CryptoJS from 'crypto-js';
+
+import { osData } from './osData';
+
+const key = osData.environmentVariables.encryptionKey;
+
 export const useWebFsInterface = () => {
   const readFile = async (path: string) => {
-    const stringifiedConfig = localStorage.getItem(path);
+    const encryptedConfig = localStorage.getItem(path);
 
-    return stringifiedConfig ?? "";
+    if (!encryptedConfig) return "";
+
+    const wordArray = CryptoJS.AES.decrypt(encryptedConfig, key)
+    
+    return wordArray.toString(CryptoJS.enc.Utf8);
+
   }
 
-  // TODO: encrypt me
   const writeFile = async (path: string, payload: string): Promise<undefined> => {
-    localStorage.setItem(path, payload);
+    const encryptedPayload = CryptoJS.AES.encrypt(payload, key).toString();
+
+    localStorage.setItem(path, encryptedPayload);
 
     return undefined;
   };

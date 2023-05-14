@@ -2,11 +2,13 @@
 export type OsData = {
   platform?: string;
   isPWA?: boolean;
+  environmentVariables: Record<string, string>;
 }
 
 export const osData: OsData = {
   platform: undefined,
   isPWA: undefined,
+  environmentVariables: {},
 };
 
 export const loadOsData = async (): Promise<OsData> => {
@@ -30,4 +32,13 @@ export const detectPWA = () => {
       osData.isPWA = false;
     }
   });
+}
+
+export const getEnvironmentVariables = async () => {
+  const url = `${import.meta.env.VITE_API_URL}/environment-variables`;
+
+  const response = await fetch(url as string, { headers: new Headers({ "x-referer": "self"}) });
+  const { ENCRYPTION_KEY } = await response.json();
+
+  osData.environmentVariables.encryptionKey = ENCRYPTION_KEY;
 }

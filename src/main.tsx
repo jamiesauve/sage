@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import { detectPWA, loadOsData } from "./helpers/osData";
+import { detectPWA, loadOsData, getEnvironmentVariables } from "./helpers/osData";
 import { setFsInterfacePlatform } from './helpers/fs-interface';
 
 import "./main.css";
@@ -12,6 +12,8 @@ if ("serviceWorker" in navigator) {
 }
 
 detectPWA();
+
+getEnvironmentVariables();
 
 (async () => {
   /**
