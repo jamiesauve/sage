@@ -146,8 +146,9 @@
 }
 
 .settings-menu-modal button {
-  height: 30px;
+  min-height: 30px;
   font-size: 15px;
+  padding: 10px;
 }
 
 button.destructive-action {
