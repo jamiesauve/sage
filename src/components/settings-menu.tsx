@@ -2,7 +2,7 @@ import { FC, useState, useEffect } from "react";
 
 import { LoadingIndicator } from "./loading-indicator";
 import { getConfig, updateConfigWithSimpleValues } from "../integrations/chat-gpt-config";
-import { osData } from "../helpers/osData"; 
+import { env } from "../helpers/environment-variables"; 
 
 import "./settings-menu.css";
 
@@ -12,7 +12,7 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
   const [model, setModel] = useState<string>("");
   const [apiKey, setApiKey] = useState<string>("");
   // we can't save securely using web/PWA until we have a backend/authentication support
-  const [shouldSaveApiKey, setShouldSaveApiKey] = useState<boolean>(osData.platform !== "web");
+  const [shouldSaveApiKey, setShouldSaveApiKey] = useState<boolean>(env.platform !== "web");
 
   useEffect(() => {
     loadConfig();
@@ -110,7 +110,7 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
               </p>
           )}
           
-          { osData.platform === "web" && (
+          { env.platform === "web" && (
             <>
               <p className="api-key-security-message">
                 NOTE: Sage cannot securely store your API key on a mobile device. Your API key will be encrypted but complete security is not guaranteed. 
@@ -138,7 +138,7 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
                     onChange={() => setShouldSaveApiKey(false)}
                     type="radio"
                     />
-                    Delete my API key when I {osData.isPWA ? "restart the app" : "leave or refresh this page"}
+                    Delete my API key when I {env.isPWA ? "restart the app" : "leave or refresh this page"}
                 </label>
               </div>
 

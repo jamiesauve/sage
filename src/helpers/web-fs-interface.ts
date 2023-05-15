@@ -1,14 +1,14 @@
 import CryptoJS from 'crypto-js';
 
-import { osData } from './osData';
+import { env } from './environment-variables';
 
-const key = osData.environmentVariables.encryptionKey;
+const key = env.encryptionKey;
 
 export const useWebFsInterface = () => {
   const readFile = async (path: string) => {
     const encryptedConfig = localStorage.getItem(path);
 
-    if (!encryptedConfig) return "";
+    if (!encryptedConfig || !key) return "";
 
     const wordArray = CryptoJS.AES.decrypt(encryptedConfig, key)
     
@@ -17,6 +17,8 @@ export const useWebFsInterface = () => {
   }
 
   const writeFile = async (path: string, payload: string): Promise<undefined> => {
+    if (!key) throw new Error("Failure to encrypt - data not saved");
+    
     const encryptedPayload = CryptoJS.AES.encrypt(payload, key).toString();
 
     localStorage.setItem(path, encryptedPayload);

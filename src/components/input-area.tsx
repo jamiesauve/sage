@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { isSafariOniOS } from "../helpers/detectSafariOniOS";
-import { osData } from "../helpers/osData";
+import { env } from "../helpers/environment-variables";
 
 import "./input-area.css";
 
@@ -21,7 +21,7 @@ export const InputArea = (props: InputAreaProps) => {
   const [pastMessageIndex, setPastMessageIndex] = useState<number>(-1);
 
   const isUserOniOSSafari = useRef<boolean>(isSafariOniOS())
-  const { isPWA } = osData;
+  const { isPWA } = env;
 
   const onKeyUpListener = (e: KeyboardEvent) => {
     if (e.key === "Enter" && e.shiftKey === false) {
