@@ -14,11 +14,11 @@ export let fsInterface: FsInterface = {
 };
 
 export const setFsInterfacePlatform = async (platform: string) => {
-  if (platform === "tauri") {
-    const { TauriFsInterface }  = await import("../helpers/tauri-fs-interface");
-    fsInterface = TauriFsInterface();
-  } else {
+  if (platform === "web") {
     const { useWebFsInterface } = await import("./web-fs-interface");
     fsInterface = useWebFsInterface();
+  } else {
+    const { TauriFsInterface }  = await import("../helpers/tauri-fs-interface");
+    fsInterface = TauriFsInterface();
   }
 }
