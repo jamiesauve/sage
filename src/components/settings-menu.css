@@ -57,7 +57,12 @@
 .settings-menu-modal .list {
   align-self: stretch;
 
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin: 20px;
+  margin-top: 0;
 }
 
 .settings-menu-modal .row {
@@ -68,16 +73,11 @@
   width: 100%;
 }
 
-.settings-menu-modal .row > .cell {
-  margin: 0 5px;
-}
-
 .settings-menu-modal .label {
   flex-shrink: 0;
 
   width: 70px;
   font-weight: bold;
-  text-align: center;
 }
 
 .settings-menu-modal .value {
@@ -92,6 +92,11 @@
   font-family: Arial, Helvetica, sans-serif;
   background-color: #fff;
   color: #000;
+
+  border: none;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 1px black;
+  padding: 5px;
 }
 
 .settings-menu-modal .value > *:disabled {
@@ -111,17 +116,49 @@
 }
 
 .settings-menu-modal .api-key-info {
-  margin: 0 20px;
-  font-size: 14px;
-  line-height: 20px;
-  text-align: center;
+  font-size: 13px;
 }
 
-.settings-menu-modal > .spacer {
+.settings-menu-modal .spacer {
   flex-grow: 1;
 }
 
+
+
+.settings-menu-modal .api-key-security-message {
+  font-size: 13px;
+  color: #ddd;
+}
+
+.settings-menu-modal .radio-button-item {
+  align-self: flex-start;
+  font-size: 13px;
+}
+
+.settings-menu-modal .button-container {
+  align-self: stretch;
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  padding: 20px;
+}
+
 .settings-menu-modal button {
-  height: 40px;
-  margin: 20px;
+  height: 30px;
+  font-size: 15px;
+}
+
+button.destructive-action {
+  background-color: #a33;
+}
+
+button.primary-action {
+  background-color: #33a;
+}
+
+button.secondary-action {
+  background-color: transparent;
+  border: 1px solid white;
 }

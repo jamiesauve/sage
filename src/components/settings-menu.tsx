@@ -113,7 +113,7 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
           { env.platform === "web" && (
             <>
               <p className="api-key-security-message">
-                NOTE: Sage cannot securely store your API key on a mobile device. Your API key will be encrypted but complete security is not guaranteed. 
+                Sage cannot securely store your API key on a mobile device. Your API key will be encrypted but complete security is not guaranteed. 
               </p>
 
               <div className="radio-button-item">
@@ -125,7 +125,7 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
                     onChange={() => setShouldSaveApiKey(true)}
                     type="radio"
                   />
-                    I understand the risks - save my API key insecurely
+                    Save my API key anyway
                 </label>
               </div>
 
@@ -141,14 +141,6 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
                     Delete my API key when I {env.isPWA ? "restart the app" : "leave or refresh this page"}
                 </label>
               </div>
-
-              <button onClick={async () => {
-                await updateConfigWithSimpleValues(true, persona, model, "");
-
-                loadConfig();
-              }}>
-                Remove my insecurely stored API key
-              </button>
             </>
           )}
         </div>
@@ -156,12 +148,31 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
         <div className="spacer" />
 
         <div className="button-container">
-          <button onClick={update}>
-            Update
+          <button 
+            className="destructive-action"
+            onClick={async () => {
+              await updateConfigWithSimpleValues(true, persona, model, "");
+
+              loadConfig();
+            }}
+          >
+            Clear API key
           </button>
+
+          <div className="spacer" />
           
-          <button onClick={handleClose}>
+          <button 
+            className="secondary-action"
+            onClick={handleClose}
+          >
             Close
+          </button>
+
+          <button 
+            className="primary-action"
+            onClick={update}
+          >
+            Update
           </button>
         </div>
       </div>
