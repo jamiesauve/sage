@@ -1,5 +1,5 @@
 export const SettingsIcon = () => (
-  <svg fill="#fff" height="28px" width="28px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
+  <svg fill="#fff" height="28px" width="28px" version="1.1" id="Capa_1" xmlns="https://www.w3.org/2000/svg" 
     viewBox="0 0 294 294">
   <path d="M279.333,117h-18.178C258.423,107,254.3,96.814,249,87.747l13.383-13.361c5.857-5.857,5.858-15.344,0-21.202l-20.737-20.733
     c-2.813-2.813-6.628-4.391-10.606-4.391c-3.978,0-7.794,1.581-10.606,4.395l-13.516,13.254c-9.308-5.519-19.417-9.796-30.417-12.591
