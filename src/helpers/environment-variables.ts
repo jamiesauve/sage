@@ -33,12 +33,14 @@ const detectPWA = () => {
 }
 
 const getDotenvVariables = async () => {
-  const url = `${import.meta.env.VITE_API_URL}/environment-variables`;
+  // const url = `${import.meta.env.VITE_API_URL}/environment-variables`;
 
-  const response = await fetch(url as string, { headers: new Headers({ "x-referer": "self"}) });
-  const { ENCRYPTION_KEY } = await response.json();
+  // const response = await fetch(url as string, { headers: new Headers({ "x-referer": "self"}) });
+  // const { ENCRYPTION_KEY } = await response.json();
 
-  return { ENCRYPTION_KEY };
+  // return { ENCRYPTION_KEY };
+
+  return { ENCRYPTION_KEY: "6e9f5789d9cd7089821aafb5d34509de" }
 }
 
 export const initializeEnvironmentVariables = async () => {
