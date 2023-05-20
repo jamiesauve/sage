@@ -11,8 +11,6 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
   const [persona, setPersona] = useState<string>("");
   const [model, setModel] = useState<string>("");
   const [apiKey, setApiKey] = useState<string>("");
-  // we can't save securely using web/PWA until we have a backend/authentication support
-  const [shouldSaveApiKey, setShouldSaveApiKey] = useState<boolean>(env.platform !== "web");
 
   useEffect(() => {
     loadConfig();
@@ -22,14 +20,14 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
     try {
       setIsFetching(true);
       
-      await updateConfigWithSimpleValues(shouldSaveApiKey, persona, model, apiKey);
+      await updateConfigWithSimpleValues(persona, model, apiKey);
       
-      setIsFetching(false);
-  
       handleClose();
     } catch(e) {
       console.error("failed to update config", e);
       // TODO: notify user somehow
+    } finally {
+      setIsFetching(false);
     }
   }
 
@@ -111,37 +109,9 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
           )}
           
           { env.platform === "web" && (
-            <>
-              <p className="api-key-security-message">
-                Sage cannot securely store your API key on a mobile device. Your API key will be encrypted but complete security is not guaranteed. 
-              </p>
-
-              <div className="radio-button-item">
-                <label>
-                  <input
-                    checked={shouldSaveApiKey}
-                    className="radio-input"
-                    name="should-save-api-key"
-                    onChange={() => setShouldSaveApiKey(true)}
-                    type="radio"
-                  />
-                    Save my API key anyway
-                </label>
-              </div>
-
-              <div className="radio-button-item">
-                <label>
-                  <input
-                    checked={!shouldSaveApiKey}
-                    className="radio-input"
-                    name="should-save-api-key"
-                    onChange={() => setShouldSaveApiKey(false)}
-                    type="radio"
-                    />
-                    Delete my API key when I {env.isPWA ? "restart the app" : "leave or refresh this page"}
-                </label>
-              </div>
-            </>
+            <p className="api-key-security-message">
+              Your API key will be encrypted. 
+            </p>
           )}
         </div>
 
@@ -151,7 +121,7 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
           <button 
             className="destructive-action"
             onClick={async () => {
-              await updateConfigWithSimpleValues(true, persona, model, "");
+              await updateConfigWithSimpleValues(persona, model, "");
 
               loadConfig();
             }}

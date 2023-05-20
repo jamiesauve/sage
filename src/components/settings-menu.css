@@ -123,16 +123,9 @@
   flex-grow: 1;
 }
 
-
-
 .settings-menu-modal .api-key-security-message {
   font-size: 13px;
   color: #ddd;
-}
-
-.settings-menu-modal .radio-button-item {
-  align-self: flex-start;
-  font-size: 13px;
 }
 
 .settings-menu-modal .button-container {

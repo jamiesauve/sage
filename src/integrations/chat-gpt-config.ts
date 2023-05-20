@@ -18,11 +18,6 @@ export type Config = {
   apiKey: ConfigItem;
 };
 
-const ephemeralApiKey = {
-  label: "OpenAI API key",
-  value: "",
-};
-
 const chatGPTConfigFileName = "chat-gpt-config.txt";
 
 export const defaultConfig = {
@@ -49,14 +44,8 @@ export const getConfig = async (): Promise<Config> => {
 
   try {
     let stringifiedConfig = await readFile(chatGPTConfigFileName);
-
-    const config = {...JSON.parse(stringifiedConfig)}
-  
-    if (ephemeralApiKey.value !== "") {
-      config.apiKey = ephemeralApiKey
-    }
-  
-    return config;
+    
+    return {...JSON.parse(stringifiedConfig)}  
   } catch (e: any) {
     throw new Error(e);
   }
@@ -66,7 +55,7 @@ export const setConfig = async (config: Config) => {
     await writeFile(chatGPTConfigFileName, JSON.stringify(config));
 };
 
-export const updateConfigWithSimpleValues = async (shouldSaveApiKey: boolean, persona?: string, model?: string, apiKey?: string) => {
+export const updateConfigWithSimpleValues = async (persona?: string, model?: string, apiKey?: string) => {
   const {...config}: Config = await getConfig();
 
   if (persona) {
@@ -78,11 +67,7 @@ export const updateConfigWithSimpleValues = async (shouldSaveApiKey: boolean, pe
   }
 
   if (apiKey || apiKey === "") {
-    if (shouldSaveApiKey) {
-      config.apiKey.value = apiKey;
-    } else {
-      ephemeralApiKey.value = apiKey;
-    }
+    config.apiKey.value = apiKey;
   }
 
   await setConfig(config);
