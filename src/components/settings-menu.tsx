@@ -123,6 +123,8 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
             onClick={async () => {
               await updateConfigWithSimpleValues(persona, model, "");
 
+              localStorage.clear();
+
               loadConfig();
             }}
           >
