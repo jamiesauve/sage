@@ -115,17 +115,14 @@
   padding: 0 10px;
 }
 
-.settings-menu-modal .api-key-info {
-  font-size: 13px;
-}
-
 .settings-menu-modal .spacer {
   flex-grow: 1;
 }
 
-.settings-menu-modal .api-key-security-message {
+.settings-menu-modal .api-key-message {
   font-size: 13px;
   color: #ddd;
+  text-align: center;
 }
 
 .settings-menu-modal .button-container {

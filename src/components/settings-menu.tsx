@@ -11,6 +11,7 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
   const [persona, setPersona] = useState<string>("");
   const [model, setModel] = useState<string>("");
   const [apiKey, setApiKey] = useState<string>("");
+  const [apiKeyInitialValue, setApiKeyInitialValue] = useState<string>("");
 
   useEffect(() => {
     loadConfig();
@@ -37,6 +38,7 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
     setPersona(config.persona.value);
     setModel(config.model.value);
     setApiKey(config.apiKey.value);
+    setApiKeyInitialValue(config.apiKey.value);
   };
 
   return (
@@ -97,7 +99,7 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
           </div>
           
           { !apiKey && (
-            <p className="api-key-info">
+            <p className="api-key-message">
               If you don't have an API key, you can create one on the {" "} 
               <a 
                 href="https://platform.openai.com/account/api-keys"
@@ -108,11 +110,16 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
               </p>
           )}
           
-          { env.platform === "web" && (
-            <p className="api-key-security-message">
-              Your API key will be encrypted. 
-            </p>
-          )}
+          {
+            env.platform === "web"
+            && apiKey
+            && apiKey !== apiKeyInitialValue
+            && (
+              <p className="api-key-message">
+                Your API key will be encrypted. 
+              </p>
+            )
+          }
         </div>
 
         <div className="spacer" />
@@ -122,8 +129,6 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
             className="destructive-action"
             onClick={async () => {
               await updateConfigWithSimpleValues(persona, model, "");
-
-              localStorage.clear();
 
               loadConfig();
             }}
