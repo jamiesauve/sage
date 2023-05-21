@@ -5,8 +5,12 @@ export const formatResponse = (response: string): JSX.Element[] => {
 
   const paragraphsAsJsx = paragraphs
   .map((line, index) => {
-    if (line === "```") {
+    if (line.startsWith("```")) {
       isWritingCode = !isWritingCode;
+
+      if (line.length > 3) {
+        return "// " + line.substring(3);
+      }
 
       return null;
     }
