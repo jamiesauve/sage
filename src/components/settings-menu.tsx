@@ -116,7 +116,7 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
             && apiKey !== apiKeyInitialValue
             && (
               <p className="api-key-message">
-                Your API key will be encrypted. 
+                Your API key will be NOT be encrypted. 
               </p>
             )
           }
