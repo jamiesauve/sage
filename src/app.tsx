@@ -4,13 +4,13 @@ import { askChatGpt } from './integrations/chat-gpt';
 import { formatResponse } from './helpers/format-response';
 import { DecorativeImageSvg } from './components/svg/decorative-image-svg';
 import { InputArea } from './components/input-area';
-import { SettingsButton } from "./components/settings-button";
 
 import { Entity, MessageInfo } from './types/message-info';
 
 import './app.css'
 import { LoadingIndicator } from './components/loading-indicator';
 import { MessageFeed } from './components/message-feed';
+import { Menu } from './components/menu';
 
 export const App = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -68,7 +68,7 @@ export const App = () => {
   return (
     <div className="app">
       <div className="main">
-        <SettingsButton />
+        <Menu />
         
         <DecorativeImageSvg />
 
