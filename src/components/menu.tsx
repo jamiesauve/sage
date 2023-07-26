@@ -1,21 +1,26 @@
+import { useState } from "react";
+
 import { env } from "../helpers/environment-variables"
-import { SettingsButton } from "./settings-button"
-import { HomeIcon } from "./svg/home-icon-svg"
+import { IconButton, IconLink } from "./ui/icon-with-action";
+import { SettingsMenu } from "./settings-menu";
 
 import "./menu.css";
 
 export const Menu = () => {
+  const [isSettingsMenuVisible, setIsSettingsMenuVisible] = useState<boolean>(false);
+  
   return (
     <div className="menu">
       {env.platform === "web"
-        && <div className="back-button-container">
-          <a href={import.meta.env.VITE_LANDING_PAGE_URL}>
-            <HomeIcon />
-          </a>
-        </div>
+        && <IconLink href={import.meta.env.VITE_LANDING_PAGE_URL} iconName="home" />
       }
 
-      <SettingsButton />
+      <IconButton
+        iconName="settings"
+        onClick={() => setIsSettingsMenuVisible(true)}
+      />
+
+      {isSettingsMenuVisible && <SettingsMenu handleClose={ () => setIsSettingsMenuVisible(false) }/>}
     </div>
   )
 }
