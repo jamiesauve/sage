@@ -52,23 +52,15 @@ export const getConfig = async (): Promise<Config> => {
 };
 
 export const setConfig = async (config: Config) => {
-    await writeFile(chatGPTConfigFileName, JSON.stringify(config));
+  await writeFile(chatGPTConfigFileName, JSON.stringify(config));
 };
 
-export const updateConfigWithSimpleValues = async (persona?: string, model?: string, apiKey?: string) => {
+export const updateConfigWithSimpleValues = async (persona: string, model: string, apiKey: string) => {
   const {...config}: Config = await getConfig();
 
-  if (persona) {
-    config.persona.value = persona;
-  }
-
-  if (model) {
-    config.model.value = model;
-  }
-
-  if (apiKey || apiKey === "") {
-    config.apiKey.value = apiKey;
-  }
+  config.persona.value = persona;
+  config.model.value = model;
+  config.apiKey.value = apiKey;
 
   await setConfig(config);
 }
