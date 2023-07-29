@@ -1,11 +1,16 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
 
-import { askChatGpt } from './integrations/chat-gpt';
-import { formatResponse } from './helpers/format-response';
+import { askChatGpt, condenseConversationHistory, getIsConversationHistoryTooLong } from './integrations/chat-gpt';
 import { DecorativeImageSvg } from './components/svg/decorative-image-svg';
 import { InputArea } from './components/input-area';
 
-import { Entity, MessageInfo } from './types/message-info';
+import { 
+  messageGetters, 
+  messageSetters,
+  messageInitialState, 
+  messagesReducer,
+  SenderEntity,
+ } from './state/messagesReducer';
 
 import './app.css'
 import { LoadingIndicator } from './components/loading-indicator';
@@ -14,56 +19,65 @@ import { Menu } from './components/menu';
 
 export const App = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [pastUserMessages, setPastUserMessages] = useState<string[]>([]);
-  const [displayedMessages, setDisplayedMessages] = useState<MessageInfo[]>([]);
-  
-  const messageCountRef = useRef<number>(0);
+  const [previousIsFetching, setPreviousIsFetching] = useState<boolean>(false);
 
-  const addPastMessage = (messageInfo: MessageInfo) => {
-    messageCountRef.current++;
-
-    setDisplayedMessages(previous => [...previous, messageInfo])
-    
-    if (messageInfo.from === Entity.User) {
-      setPastUserMessages(previous => [...previous, messageInfo.message])
-    }
-  };
-
-  const handleUserQuery = async (queryContent?: string) => {
-    if (!queryContent) return;
-
-    setIsFetching(true);
-
-    try {
-      const response = await askChatGpt(queryContent, displayedMessages);
-      const formattedResponse = formatResponse(response);
-      addPastMessage({ message: response, messageJSX: formattedResponse, from: Entity.Api });
-    } catch (e) {
-      console.error("error calling ChatGPT", e);
-      const failureMessage = "Failed to connect to ChatGPT. You might need to update your OpenAI API key in Settings."
-      
-      addPastMessage({ message: failureMessage, messageJSX: [<p className="text" key={`message${messageCountRef}`}>{failureMessage}</p>], from: Entity.Sage });
-    } finally {
-      setIsFetching(false);
-    }
-  }
+  const [ state, dispatch ] = useReducer(messagesReducer, messageInitialState);
 
   const handleSubmit = useCallback(async (content: string) => {
     if (content.toLowerCase().trim() === "clear") {
-      setDisplayedMessages([]);
-    } else if (content) {
-      addPastMessage({ 
-        message: content,
-        messageJSX: [<p className="text" key={`message${messageCountRef}`}>{content}</p>], 
-        from: Entity.User
-        })
+          state.messages.forEach(message => {
+            messageSetters.updateMessageById(dispatch, message.id, { appearsToUser: true })
+          })
+        } else if (content) {
+          const unsummarizedMessages = messageGetters.unsummarizedMessages(state);
 
-      handleUserQuery(content);
-    }
-  },[
-    handleUserQuery,
-    addPastMessage
+          messageSetters.addMessage(dispatch, {
+            appearsToUser: true,
+            from: SenderEntity.User, 
+            isSummarized: false,
+            text: content, 
+          });
+          
+          setIsFetching(true);
+
+          await askChatGpt(dispatch, unsummarizedMessages, content);
+
+          setIsFetching(false);
+        }
+  }, [
+    askChatGpt,
+    messageSetters,
+    state
   ])
+
+  useEffect(() => {
+    (async () => {
+    if (previousIsFetching && !isFetching) {
+      const unsummarizedMessages = messageGetters.unsummarizedMessages(state);
+      const isConversationHistoryTooLong = getIsConversationHistoryTooLong(unsummarizedMessages);
+
+      if (isConversationHistoryTooLong) {
+        condenseConversationHistory(dispatch, unsummarizedMessages);
+      }
+    }
+
+    setPreviousIsFetching(isFetching)
+  })();
+  }, [
+    isFetching,
+    previousIsFetching,
+  ])
+
+  const visibleMessages = useMemo(() => messageGetters.messagesThatAppearToTheUser(state), [messageGetters, state]);
+  const pastQueriesInReverseOrder = useMemo(() => {
+    const messagesFromTheUser = messageGetters.messagesFromUser(state);
+
+    return messagesFromTheUser.map(message => message.text).reverse()
+  }, [
+    messageGetters,
+    state
+  ]
+  );
   
   return (
     <div className="app">
@@ -72,11 +86,11 @@ export const App = () => {
         
         <DecorativeImageSvg />
 
-        <MessageFeed messages={displayedMessages} />
+        <MessageFeed messages={visibleMessages} />
 
         <InputArea
           handleSubmit={handleSubmit}
-          pastQueries={[...pastUserMessages].reverse()}
+          pastQueries={pastQueriesInReverseOrder}
         />
 
         <audio id="audioPlayback">

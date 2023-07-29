@@ -1,4 +1,4 @@
-export const formatResponse = (response: string): JSX.Element[] => {
+export const formatMessage = (response: string): JSX.Element[] => {
   const paragraphs = response.split("\n");
 
   let isWritingCode = false;
@@ -18,7 +18,7 @@ export const formatResponse = (response: string): JSX.Element[] => {
     if (isWritingCode) {
       return <p className="code" key={index}>{line}</p>
     } else {
-      if (line.match(/^[0-9]+\./g)) {// starts with a number and period, ie 1. or 30.
+      if (line.match(/^[0-9]+\./g)) { // starts with a number and period, ie 1. or 30.
         return <p className="list-item" key={index}>{line}</p>
       } else {
         return <p className="text" key={index}>{line}</p>

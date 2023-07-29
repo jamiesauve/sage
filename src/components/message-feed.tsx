@@ -1,9 +1,9 @@
 import { FC, useEffect, useRef } from "react"
-import { MessageInfo } from "../types/message-info";
+import { Message } from "../state/messagesReducer";
 
 import "./message-feed.css";
 
-export const MessageFeed: FC<{messages: MessageInfo[] }> = ({ messages }) => {
+export const MessageFeed: FC<{messages: Message[] }> = ({ messages }) => {
   const feedContainerElementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -19,12 +19,12 @@ export const MessageFeed: FC<{messages: MessageInfo[] }> = ({ messages }) => {
     <div className="feed-container" ref={feedContainerElementRef}>
         <div className="feed">
           {
-            messages.map(messageInfo => (
+            messages.map(message => (
               <div 
-                className={`message from-${messageInfo.from}`} 
-                key={messageInfo.message}
+                className={`message from-${message.from}`} 
+                key={message.text}
               >
-                {messageInfo.messageJSX}
+                {message.JSX}
               </div>
             ))
           }

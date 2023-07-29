@@ -1,25 +1,102 @@
-import { Entity, MessageInfo } from "../types/message-info";
+import { SenderEntity, Message, messageSetters } from "../state/messagesReducer"
 import { getConfig } from "./chat-gpt-config";
+
+type MessageInChatGptFormat = {
+  role: string;
+  content: string;
+}
 
 const openAIApiUrl = "https://api.openai.com/v1/chat/completions";
 
-export const askChatGpt = async (query: string, pastMessages: MessageInfo[]): Promise<string> => {
-  const config = await getConfig();
+const MAX_CHARACTERS_IN_CONVERSATION = 16000; // this is approximate, it's actually measured in tokens
+const MINIFY_CONVERSATION_THRESHOLD = 3000; // Reserve 4000 characters for the next user message
 
-  const formattedMessages = [
+let currentConversationLength = 0;
+
+export const getIsConversationHistoryTooLong = (messages: Message[]): boolean => {
+  const conversationLengthInCharacters = messages.reduce((aggr: number, message: Message) => {
+    return aggr + message.text.length
+  }, 0)
+  
+  currentConversationLength = conversationLengthInCharacters;
+
+  return conversationLengthInCharacters >= MINIFY_CONVERSATION_THRESHOLD;
+}
+
+const formatMessagesForChatGpt = async (messages: Message[], query: string): Promise<MessageInChatGptFormat[]> => {
+  const config = await getConfig();
+  return [
     {
       role: "user",
       content: config.persona.value,
     },
-    ...pastMessages.map((messageInfo) => ({
-      role: messageInfo.from === Entity.Api ? "assistant" : "user",
-      content: messageInfo.message
+    ...messages.map((message) => ({
+      role: message.from === SenderEntity.Api ? "assistant" : "user",
+      content: message.text
     })),
     {
       role: "user",
       content: query
     }
-  ]
+  ];
+}
+
+export const condenseConversationHistory = async (dispatch: any, messages: Message[]): Promise<void> => {
+  const query = `Please resume our conversation so far from my point of view, as concisely as
+  possible and without leaving out important details. Your answer needs to be no longer than
+  ${MAX_CHARACTERS_IN_CONVERSATION - currentConversationLength} characters.`
+
+  const formattedMessages = await formatMessagesForChatGpt(messages, query);
+
+  try {
+    const response = await callChatGpt(formattedMessages);
+    const condensedConversationHistory = response.choices[0].message.content;
+  
+    messageSetters.addMessage(dispatch, {
+      appearsToUser: false,
+      isSummarized: false,
+      from: SenderEntity.Api,
+      text: condensedConversationHistory,
+    })
+    
+    messages.forEach(message => {
+      messageSetters.updateMessageById(dispatch, message.id, { isSummarized: true })
+    })
+  
+    // reset character tracking
+    currentConversationLength = condensedConversationHistory.length;
+  } catch (e) {
+    console.error("error minifying the chat history", e);
+  }
+}
+
+export const askChatGpt = async (dispatch: any, messages: Message[], query: string): Promise<void> => {
+
+  const formattedMessages = await formatMessagesForChatGpt(messages, query);
+
+  try {
+    const response = await callChatGpt(formattedMessages);
+
+    const responseAsText = response.choices[0].message.content;
+  
+    messageSetters.addMessage(dispatch, {
+      appearsToUser: true,
+      isSummarized: false,
+      from: SenderEntity.Api,
+      text: responseAsText,
+    })
+  } catch (e) {        
+    messageSetters.addMessage(dispatch, {
+      appearsToUser: true,
+      from: SenderEntity.Sage, 
+      isSummarized: false,
+      text: "Failed to connect to ChatGPT. You might need to update your OpenAI API key in Settings.", 
+    });
+  }
+}
+
+const callChatGpt = async (messages: MessageInChatGptFormat[]) => {
+  const config = await getConfig();
 
   const response = await fetch(
     openAIApiUrl, 
@@ -32,12 +109,12 @@ export const askChatGpt = async (query: string, pastMessages: MessageInfo[]): Pr
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
-        messages: formattedMessages
+        messages,
       })
     }
   )
 
   const decodedResponse = await response.json()
-  const responseAsText = decodedResponse.choices[0].message.content;
-  return responseAsText;
+  
+  return decodedResponse;
 }
