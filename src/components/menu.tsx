@@ -11,16 +11,19 @@ export const Menu = () => {
   
   return (
     <div className="menu">
-      {env.platform === "web"
-        && <IconLink href={import.meta.env.VITE_LANDING_PAGE_URL} iconName="home" />
-      }
+      <div className="menu-button-container">
+        {env.platform === "web"
+          && <IconLink href={import.meta.env.VITE_LANDING_PAGE_URL} iconName="home" />
+        }
 
-      <IconButton
-        iconName="settings"
-        onClick={() => setIsSettingsMenuVisible(true)}
-      />
+        <IconButton
+          iconName="settings"
+          onClick={() => setIsSettingsMenuVisible(true)}
+        />
+      </div>
+      
 
       {isSettingsMenuVisible && <SettingsMenu handleClose={ () => setIsSettingsMenuVisible(false) }/>}
-    </div>
+      </div>
   )
 }
