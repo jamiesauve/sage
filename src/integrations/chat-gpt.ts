@@ -6,8 +6,6 @@ type MessageInChatGptFormat = {
   content: string;
 }
 
-const openAIApiUrl = "https://api.openai.com/v1/chat/completions";
-
 const MAX_CHARACTERS_IN_CONVERSATION = 16000; // this is approximate, it's actually measured in tokens
 const MINIFY_CONVERSATION_THRESHOLD = 3000; // Reserve 4000 characters for the next user message
 
@@ -75,21 +73,21 @@ export const askChatGpt = async (dispatch: any, messages: Message[], query: stri
   const formattedMessages = await formatMessagesForChatGpt(messages, query);
 
   try {
-    const response = await callChatGpt(formattedMessages);
-
-    const responseAsText = response.choices[0].message.content;
+    const answer = await callChatGpt(formattedMessages);
   
     messageSetters.addMessage(dispatch, {
       appearsToUser: true,
       isSummarized: false,
       from: SenderEntity.Api,
-      text: responseAsText,
+      text: answer,
     })
-  } catch (e) {        
+  } catch (e) {
+    console.error(e);
+
     messageSetters.addMessage(dispatch, {
       appearsToUser: true,
       from: SenderEntity.Sage, 
-      isSummarized: false,
+      isSummarized: true, // we don't want this included in summaries or sent to ChatGPT
       text: "Failed to connect to ChatGPT. You might need to update your OpenAI API key in Settings.", 
     });
   }
@@ -99,7 +97,7 @@ const callChatGpt = async (messages: MessageInChatGptFormat[]) => {
   const config = await getConfig();
 
   const response = await fetch(
-    openAIApiUrl, 
+    import.meta.env.VITE_API_URL,
     {
       method: "POST",
       headers: {
@@ -108,13 +106,13 @@ const callChatGpt = async (messages: MessageInChatGptFormat[]) => {
   
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
         messages,
       })
     }
   )
 
-  const decodedResponse = await response.json()
+  const decodedResponse = await response.json();
+  const answer = decodedResponse.body.choices[0].message.content; 
   
-  return decodedResponse;
+  return answer;
 }
