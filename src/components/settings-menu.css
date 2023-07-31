@@ -117,6 +117,14 @@
   padding: 0 10px;
 }
 
+.settings-menu-modal p {
+  margin-top: 2px;
+}
+
+.settings-menu-modal .secondary-text {
+  font-size: 13px;
+}
+
 .settings-menu-modal .spacer {
   flex-grow: 1;
 }

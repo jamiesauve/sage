@@ -50,14 +50,19 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
             </div>
 
             <div className="cell value"> 
-                <textarea
-                  cols={3}
-                  disabled={isFetching}
-                  onChange={(e) => setPersona(e.target.value)}
-                  value={persona}
-                />
-              </div>
+              <textarea
+                cols={3}
+                disabled={isFetching}
+                onChange={(e) => setPersona(e.target.value)}
+                value={persona}
+              />
+            </div>
           </div>
+
+
+          <p className="secondary-text">
+            This is 'who' your assistant will be. Try 'Please speak like a pirate.'
+          </p>
         </div>
 
         <div className="spacer" />
