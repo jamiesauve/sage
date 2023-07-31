@@ -1,0 +1,35 @@
+.textarea-with-loading-indicator {
+  width: 100%;
+  display: flex;
+}
+
+.textarea-with-loading-indicator textarea {
+  resize: none;
+  padding: 10px;
+  min-width: 100px;
+  margin-right: 5px;
+  border-radius: 10px;
+  flex-grow: 1;
+  font-size: 14px;
+  font-weight: 500;
+
+  background-color: white;
+  color: #222;
+}
+
+.textarea-with-loading-indicator textarea:focus,
+.textarea-with-loading-indicator textarea:focus-visible {
+  outline: 2px auto -webkit-focus-ring-color;
+}
+
+.textarea-with-loading-indicator .lds-ripple {
+  position: absolute;
+
+  z-index: 15;
+  
+  width: 80px;
+  height: 80px;
+
+  bottom: -23px;
+  right: 78px;
+}

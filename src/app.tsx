@@ -90,16 +90,13 @@ export const App = () => {
 
         <InputArea
           handleSubmit={handleSubmit}
+          isFetching={isFetching}
           pastQueries={pastQueriesInReverseOrder}
         />
 
         <audio id="audioPlayback">
           <source id="audioSource" type="audio/mp3" src="" />
         </audio>
-
-        {
-          isFetching && <LoadingIndicator />
-        }
       </div>
     </div>
   )

@@ -1,8 +1,9 @@
 .input-area {
-  height: 58px;
+  /* height: 58px; */
 
   align-self: stretch;
   display: flex;
+  justify-content: space-between;
 
   box-sizing: border-box;
 
@@ -17,22 +18,4 @@
 .isSafariOniOS {
   /* Safari on iOS obscures the bottom 80px or so of the app */
   margin-bottom: 77px;
-}
-
-.input-area textarea {
-  padding: 10px;
-  min-width: 100px;
-  margin-right: 5px;
-  border-radius: 10px;
-  flex-grow: 1;
-  font-size: 14px;
-  font-weight: 500;
-
-  background-color: white;
-  color: #222;
-}
-
-textarea:focus,
-textarea:focus-visible {
-  outline: 2px auto -webkit-focus-ring-color;
 }

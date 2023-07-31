@@ -4,15 +4,18 @@ import { isSafariOniOS } from "../helpers/detectSafariOniOS";
 import { env } from "../helpers/environment-variables";
 
 import "./input-area.css";
+import { TextareaWithLoadingIndicator } from "./ui/textarea-with-loading-indicator";
 
 interface InputAreaProps {
   handleSubmit: (content: string) => void;
+  isFetching: boolean;
   pastQueries: string[];
 }
 
 export const InputArea = (props: InputAreaProps) => {
   const {
     handleSubmit,
+    isFetching,
     pastQueries,
   } = props;
 
@@ -70,16 +73,13 @@ export const InputArea = (props: InputAreaProps) => {
 
   return (
     <div className={`input-area${isUserOniOSSafari.current && !isPWA ? " isSafariOniOS" : ""}`}>
-        <textarea
-          autoFocus
-          className="input"
+        <TextareaWithLoadingIndicator
+          isFetching={isFetching}
           onChange={(e) => {
             setContent(e.target.value);
             setUnsubmittedContent(e.target.value);
           }}
-          rows={2}
           value={content}
-          placeholder="Ask a question"
         />
 
         <button
