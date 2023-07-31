@@ -22,7 +22,7 @@ export const MessageFeed: FC<{messages: Message[] }> = ({ messages }) => {
             messages.map(message => (
               <div 
                 className={`message from-${message.from}`} 
-                key={message.text}
+                key={message.id}
               >
                 {message.JSX}
               </div>
