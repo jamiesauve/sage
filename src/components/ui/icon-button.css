@@ -1,0 +1,19 @@
+.icon-button {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.icon-button:not(:first-child) {
+  margin-left: 10px;
+}
+
+.icon-button:hover {
+  cursor: pointer;
+}
+
+.icon-button svg {
+  position: relative;
+  opacity: 0.9;
+}

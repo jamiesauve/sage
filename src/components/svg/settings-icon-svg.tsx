@@ -8,7 +8,7 @@ export const SettingsIcon = () => (
     xmlns="https://www.w3.org/2000/svg" 
     viewBox="0 0 294 294"
     style={{
-      left: "-15px",
+      transform: "translate(-50%, 0)",
       top: "2px",
       height: "30px",
       width: "30px",

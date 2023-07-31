@@ -4,7 +4,8 @@ export const HomeIcon = () => (
     fill="#fff"
     viewBox="0 0 25 25"
     style={{
-      top: "3px",
+      transform: "translate(-50%, 0)",
+      top: "1px",
       height: "28px",
       width: "28px",
     }}
