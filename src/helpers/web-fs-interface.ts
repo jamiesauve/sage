@@ -1,7 +1,7 @@
 export const useWebFsInterface = () => {
-  const readFile = async (path: string) => {
+  const readFile = async (path: string): Promise<string> => {
     const config = localStorage.getItem(path);
-    return config;
+    return config ?? "";
   }
 
   const writeFile = async (path: string, payload: string): Promise<undefined> => {
