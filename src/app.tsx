@@ -3,6 +3,8 @@ import { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
 import { askChatGpt, condenseConversationHistory, getIsConversationHistoryTooLong } from './integrations/chat-gpt';
 import { DecorativeImageSvg } from './components/svg/decorative-image-svg';
 import { InputArea } from './components/input-area';
+import { MessageFeed } from './components/message-feed';
+import { Menu } from './components/menu';
 
 import { 
   messageGetters, 
@@ -13,9 +15,6 @@ import {
  } from './state/messagesReducer';
 
 import './app.css'
-import { LoadingIndicator } from './components/loading-indicator';
-import { MessageFeed } from './components/message-feed';
-import { Menu } from './components/menu';
 
 export const App = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -93,10 +92,6 @@ export const App = () => {
           isFetching={isFetching}
           pastQueries={pastQueriesInReverseOrder}
         />
-
-        <audio id="audioPlayback">
-          <source id="audioSource" type="audio/mp3" src="" />
-        </audio>
       </div>
     </div>
   )

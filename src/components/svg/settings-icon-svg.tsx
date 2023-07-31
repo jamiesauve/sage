@@ -9,7 +9,7 @@ export const SettingsIcon = () => (
     viewBox="0 0 294 294"
     style={{
       transform: "translate(-50%, 0)",
-      top: "2px",
+      top: "1px",
       height: "30px",
       width: "30px",
     }}
