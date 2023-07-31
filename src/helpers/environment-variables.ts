@@ -2,13 +2,11 @@
 export type Env = {
   platform?: string;
   isPWA?: boolean;
-  encryptionKey?: string;
 }
 
 export const env: Env = {
   platform: undefined,
   isPWA: undefined,
-  encryptionKey: undefined,
 };
 
 const loadOsData = async (): Promise<{ platform: string }> => {
@@ -32,29 +30,11 @@ const detectPWA = () => {
   });
 }
 
-const getDotenvVariables = async () => {
-  // const url = `${import.meta.env.VITE_API_URL}/environment-variables`;
-
-  // const response = await fetch(url as string);
-  // const { ENCRYPTION_KEY } = await response.json();
-
-  // return { ENCRYPTION_KEY };
-  return { ENCRYPTION_KEY: "38b9d9ce9f89821aaf64bc5d345de7a9" };
-}
-
 export const initializeEnvironmentVariables = async () => {
   detectPWA();
 
-  const [
-    osData,
-    dotenvVariables,
-  ] = await Promise.all([
-    loadOsData(),
-    getDotenvVariables(),
-  ]);
-
+  const osData = await loadOsData();
   env.platform = osData.platform;
-  env.encryptionKey = dotenvVariables.ENCRYPTION_KEY;
 
   return env;
 }

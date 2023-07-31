@@ -2,16 +2,12 @@ import { FC, useState, useEffect } from "react";
 
 import { LoadingIndicator } from "./loading-indicator";
 import { getConfig, updateConfigWithSimpleValues } from "../integrations/chat-gpt-config";
-import { env } from "../helpers/environment-variables"; 
 
 import "./settings-menu.css";
 
 export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [persona, setPersona] = useState<string>("");
-  const [model, setModel] = useState<string>("");
-  const [apiKey, setApiKey] = useState<string>("");
-  const [apiKeyInitialValue, setApiKeyInitialValue] = useState<string>("");
 
   useEffect(() => {
     loadConfig();
@@ -21,7 +17,7 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
     try {
       setIsFetching(true);
       
-      await updateConfigWithSimpleValues(persona, model, apiKey);
+      await updateConfigWithSimpleValues(persona);
       
       handleClose();
     } catch(e) {
@@ -36,9 +32,6 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
     const config = await getConfig();
 
     setPersona(config.persona.value);
-    setModel(config.model.value);
-    setApiKey(config.apiKey.value);
-    setApiKeyInitialValue(config.apiKey.value);
   };
 
   return (
@@ -65,79 +58,11 @@ export const SettingsMenu:FC<{ handleClose: () => void }> = ({ handleClose }) =>
                 />
               </div>
           </div>
-
-          <div className="row">
-            <div className="cell label">
-              Model
-            </div>
-
-            <div className="cell value"> 
-              <select 
-                disabled={isFetching}
-                name="model" 
-                onChange={(e) => setModel(e.target.value)}
-                value={model} 
-              >
-                <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="cell label">
-              API Key
-            </div>
-
-            <div className="cell value"> 
-              <input
-                disabled={isFetching}
-                onChange={(e) => setApiKey(e.target.value)}
-                type="text"
-                value={apiKey}
-              />
-            </div>
-          </div>
-          
-          { !apiKey && (
-            <p className="api-key-message">
-              If you don't have an API key, you can create one on the {" "} 
-              <a 
-                href="https://platform.openai.com/account/api-keys"
-              >
-                OpenAI platform
-              </a>
-              .
-              </p>
-          )}
-          
-          {
-            env.platform === "web"
-            && apiKey
-            && apiKey !== apiKeyInitialValue
-            && (
-              <p className="api-key-message">
-                Your API key will be NOT be encrypted. 
-              </p>
-            )
-          }
         </div>
 
         <div className="spacer" />
 
         <div className="button-container">
-          <button 
-            className="destructive-action"
-            onClick={async () => {
-              await updateConfigWithSimpleValues(persona, model, "");
-
-              loadConfig();
-            }}
-          >
-            Clear API key
-          </button>
-
-          <div className="spacer" />
-          
           <button 
             className="secondary-action"
             onClick={handleClose}

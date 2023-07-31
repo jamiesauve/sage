@@ -14,8 +14,6 @@ export type ConfigItem = {
 
 export type Config = {
   persona: ConfigItem;
-  model: ConfigItem;
-  apiKey: ConfigItem;
 };
 
 const chatGPTConfigFileName = "chat-gpt-config.txt";
@@ -24,14 +22,6 @@ export const defaultConfig = {
   persona: {
     label: "AI Requests",
     value: ``
-  },
-  model: {
-    label: "Model",
-    value: "gpt-3.5-turbo",
-  },
-  apiKey: {
-    label: "OpenAI API key",
-    value: "",
   },
 };
 
@@ -55,12 +45,10 @@ export const setConfig = async (config: Config) => {
   await writeFile(chatGPTConfigFileName, JSON.stringify(config));
 };
 
-export const updateConfigWithSimpleValues = async (persona: string, model: string, apiKey: string) => {
+export const updateConfigWithSimpleValues = async (persona: string) => {
   const {...config}: Config = await getConfig();
 
   config.persona.value = persona;
-  config.model.value = model;
-  config.apiKey.value = apiKey;
 
   await setConfig(config);
 }

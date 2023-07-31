@@ -88,22 +88,18 @@ export const askChatGpt = async (dispatch: any, messages: Message[], query: stri
       appearsToUser: true,
       from: SenderEntity.Sage, 
       isSummarized: true, // we don't want this included in summaries or sent to ChatGPT
-      text: "Failed to connect to ChatGPT. You might need to update your OpenAI API key in Settings.", 
+      text: "Failed to connect to ChatGPT.", 
     });
   }
 }
 
 const callChatGpt = async (messages: MessageInChatGptFormat[]) => {
-  const config = await getConfig();
-
   const response = await fetch(
     import.meta.env.VITE_API_URL,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${config.apiKey.value}`,
-  
       },
       body: JSON.stringify({
         messages,

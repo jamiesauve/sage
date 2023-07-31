@@ -45,7 +45,7 @@
   z-index: 11;
   width: 400px;
   max-width: 90%;
-  height: 600px;
+  height: 300px;
   max-height: 90%;
   border: 3px solid white;
   border-radius: 20px;
@@ -70,6 +70,7 @@
   margin-top: 20px;
 
   display: flex;
+  align-items: center;
 
   width: 100%;
 }
@@ -120,17 +121,12 @@
   flex-grow: 1;
 }
 
-.settings-menu-modal .api-key-message {
-  font-size: 13px;
-  color: #f77;
-  text-align: center;
-}
-
 .settings-menu-modal .button-container {
   align-self: stretch;
 
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   gap: 10px;
 
   padding: 20px;
@@ -140,10 +136,6 @@
   min-height: 30px;
   font-size: 15px;
   padding: 10px;
-}
-
-button.destructive-action {
-  background-color: #a33;
 }
 
 button.primary-action {
