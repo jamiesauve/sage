@@ -7,7 +7,10 @@ export const MessageFeed: FC<{messages: Message[] }> = ({ messages }) => {
   const feedContainerElementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (feedContainerElementRef?.current) {
+    if (
+      feedContainerElementRef?.current
+      && messages[messages.length - 1]?.appearsToUser === true // don't jump to the bottom when receiving a summary message
+      ) {
       feedContainerElementRef.current.scrollTop = feedContainerElementRef.current.scrollHeight
     }
   }, [
