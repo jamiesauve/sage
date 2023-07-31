@@ -26,7 +26,7 @@ export const InputArea = (props: InputAreaProps) => {
   const onKeyUpListener = (e: KeyboardEvent) => {
     if (e.key === "Enter" && e.shiftKey === false) {
       handleSubmitButtonClicked();
-    } else if (["ArrowUp", "ArrowDown"].includes(e.key)) {
+    } else if (["ArrowUp", "ArrowDown"].includes(e.key) && e.altKey) {
       handleMessageHistoryChange(e.key);
     }
   }
