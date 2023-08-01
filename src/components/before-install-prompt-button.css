@@ -1,0 +1,73 @@
+.before-install-prompt-button {
+  position: fixed;
+  top: -80px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+
+  -webkit-animation: slide-in-from-top 500ms ease-in-out 250ms forwards;
+  animation: slide-in-from-top 500ms ease-in-out 250ms forwards;
+}
+
+.before-install-prompt-button .install-button-background {
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 0 0 5px 5px;
+}
+
+.before-install-prompt-button .install-button-background .install-button {
+  padding: 10px;
+  border: 1px solid white;
+  background-color: #0a0;
+}
+
+.before-install-prompt-button .install-button-background {
+  position: relative; 
+  background: white;
+}
+
+.before-install-prompt-button .install-button-background .close-button-container {
+  height: 0;
+  width: 0;
+   
+  position: absolute;
+}
+
+.before-install-prompt-button .install-button-background .close-button-container .close-button {
+  width: 18px;
+  height: 18px;
+  position: relative;
+  padding: 2px;
+  background-color: white;
+  border: white solid 2px;
+  top: -14px;
+  left: 118px;
+}
+
+.before-install-prompt-button .install-button-background .close-button-container .close-button:before,
+.before-install-prompt-button .install-button-background .close-button-container .close-button:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background-color: #777;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.before-install-prompt-button .install-button-background .close-button-container .close-button:before {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+@keyframes slide-in-from-top {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0, 80px);
+  }
+}

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 
 import { initializeEnvironmentVariables } from "./helpers/environment-variables";
 import { setFsInterfacePlatform } from './helpers/fs-interface';
+import { BeforeInstallPromptButton } from "./components/before-install-prompt-button";
 
 import "./main.css";
 
@@ -23,7 +24,8 @@ if ("serviceWorker" in navigator) {
   const { App } = await import("./app");
   
   ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <React.StrictMode>      
+    <React.StrictMode>
+      <BeforeInstallPromptButton />      
       <App />
     </React.StrictMode>,
   )
