@@ -1,6 +1,7 @@
 .textarea-with-loading-indicator {
   width: 100%;
   display: flex;
+  flex-direction: column;
 }
 
 .textarea-with-loading-indicator textarea {
@@ -22,14 +23,17 @@
   outline: 2px auto -webkit-focus-ring-color;
 }
 
-.textarea-with-loading-indicator .lds-ripple {
+.textarea-with-loading-indicator .detacher {
+  align-self: flex-end;
+
   position: absolute;
+}
+
+.textarea-with-loading-indicator .detacher .lds-ripple {
+  position: relative;
 
   z-index: 15;
-  
-  width: 80px;
-  height: 80px;
 
-  bottom: -23px;
-  right: 78px;
+  bottom: -4px;
+  right: 55px;
 }

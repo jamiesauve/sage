@@ -17,17 +17,19 @@ export const TextareaWithLoadingIndicator: React.FC<TextareaWithLoadingIndicator
   return (
     <div className="textarea-with-loading-indicator">
       <textarea
-          autoFocus
-          className="input"
-          onChange={onChange}
-          rows={2}
-          value={value}
-          placeholder="Ask a question"
-        />
+        autoFocus
+        className="input"
+        onChange={onChange}
+        rows={2}
+        value={value}
+        placeholder="Ask a question"
+      />
 
-        { isFetching
-          && <LoadingIndicator />
-        }
+      { isFetching
+        && <div className="detacher">
+          <LoadingIndicator />
+        </div>
+      }
     </div>
   )
 }
