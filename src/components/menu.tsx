@@ -12,7 +12,7 @@ export const Menu = () => {
   return (
     <div className="menu">
       <div className="menu-button-container">
-        {env.platform === "web"
+        {env.platform === "web" && env.isPWA === false
           && <IconButton
             iconName="home"
             onClick={() => window.location.href = import.meta.env.VITE_LANDING_PAGE_URL}
