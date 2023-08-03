@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { isSafariOniOS } from "../helpers/detectSafariOniOS";
 import { env } from "../helpers/environment-variables";
 
 import "./input-area.css";
@@ -23,7 +22,6 @@ export const InputArea = (props: InputAreaProps) => {
   const [unsubmittedContent, setUnsubmittedContent] = useState<string>("");
   const [pastMessageIndex, setPastMessageIndex] = useState<number>(-1);
 
-  const isUserOniOSSafari = useRef<boolean>(isSafariOniOS())
   const { isPWA } = env;
 
   const onKeyUpListener = (e: KeyboardEvent) => {
@@ -72,7 +70,7 @@ export const InputArea = (props: InputAreaProps) => {
   }, [ onKeyUpListener ])
 
   return (
-    <div className={`input-area${isUserOniOSSafari.current && !isPWA ? " isSafariOniOS" : ""}`}>
+    <div className={`input-area`}>
         <TextareaWithLoadingIndicator
           isFetching={isFetching}
           onChange={(e) => {
