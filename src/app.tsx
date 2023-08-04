@@ -15,6 +15,7 @@ import {
  } from './state/messagesReducer';
 
 import './app.css'
+import { useWindowSize } from './utils/useWindowSize';
 
 export const App = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -22,12 +23,30 @@ export const App = () => {
 
   const [ state, dispatch ] = useReducer(messagesReducer, messageInitialState);
 
+  const { height: windowHeight } = useWindowSize();
+
+  useEffect(() => {
+    const appElement = document.getElementsByClassName("app")[0];
+    
+    // @ts-ignore
+    appElement.style.height = window.innerHeight;
+  }, [])
+
+  useEffect(() => {
+    const appElement = document.getElementsByClassName("app")[0];
+
+    // @ts-ignore
+    appElement.style.height = `${windowHeight}px`;
+  }, [
+    windowHeight
+  ])
+
   const handleSubmit = useCallback(async (content: string) => {
     if (content.toLowerCase().trim() === "clear") {
           state.messages.forEach(message => {
             messageSetters.updateMessageById(dispatch, message.id, { appearsToUser: true })
           })
-        } else if (content) {
+        } else if (content.trim()) {
           const unsummarizedMessages = messageGetters.unsummarizedMessages(state);
 
           messageSetters.addMessage(dispatch, {
