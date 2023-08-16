@@ -101,9 +101,11 @@ const callChatGpt = async (messages: MessageInChatGptFormat[]) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        messages,
-      })
+      body: {
+        messages: JSON.stringify({
+          messages,
+        })
+      } as any
     }
   )
 
