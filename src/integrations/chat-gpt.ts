@@ -11,6 +11,8 @@ const MINIFY_CONVERSATION_THRESHOLD = 3000; // Reserve 4000 characters for the n
 
 let currentConversationLength = 0;
 
+let apiKey: string = "";
+
 export const getIsConversationHistoryTooLong = (messages: Message[]): boolean => {
   const conversationLengthInCharacters = messages.reduce((aggr: number, message: Message) => {
     return aggr + message.text.length
@@ -94,21 +96,38 @@ export const askChatGpt = async (dispatch: any, messages: Message[], query: stri
 }
 
 const callChatGpt = async (messages: MessageInChatGptFormat[]) => {
+  if (apiKey === "") {
+    const response = await fetch(import.meta.env.VITE_API_KEY_URL,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }
+    )
+
+    const decodedResponse = await response.json();
+
+    apiKey = decodedResponse.apiKey;
+  }
+
   const response = await fetch(
-    import.meta.env.VITE_API_URL,
+    "https://api.openai.com/v1/chat/completions",
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
+        model: "gpt-4",
         messages,
       })
     }
   )
 
   const decodedResponse = await response.json();
-  const answer = decodedResponse.body.choices[0].message.content; 
+  const answer = decodedResponse.choices[0].message.content
   
   return answer;
 }
